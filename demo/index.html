@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webpack 2 Demo</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="../dist/jquery.dashboard.js" charset="utf-8"></script>
+    <script src="../dist/jquery.dashboard.samples.js" charset="utf-8"></script>
+
+    <script type="application/javascript">
+
+        (function ($) {
+            $.fn.extend({
+                _cxWidgets: [],
+                classList: function (prefix) {
+                    var list = this[0].className.split(/\s+/);
+                    if (prefix) {
+                        var prefixed = [];
+                        $.each(list, function (index, item) {
+                            if (item.startsWith(prefix)) {
+                                prefixed[index] = item;
+                            }
+                        });
+                        return prefixed;
+                    } else {
+                        return list;
+                    }
+                },
+
+                addDashboardWidget: function (widgetData) {
+                    this._cxWidgets[widgetData.id] = widgetData;
+                    var widgetElement = this.append(widgetData.widgetTemplate(widgetData))
+                        .sortable('refresh')
+                        .find('.widget.widget-' + widgetData.id)
+                        .show(400);
+                    widgetData.initializeContent(widgetElement);
+                    this.trigger('widget.added', widgetData);
+                    return this;
+                },
+
+                dashboard: function () {
+                    var grid = this;
+                    grid.sortable({
+                        placeholder: {
+                            element: function (currentItem) {
+                                return '<div class="' + currentItem.classList('col-').join(' ') + ' placee"></div>';
+                            },
+                            update: function (contianer, p) {
+                            }
+                        },
+                        scroll: true,
+                        handle: '.panel-heading',
+                        tolerance: 'pointer',
+                        update: function (event, ui) {
+                            var startIndex = ui.item.data('startIndex');
+                            var endIndex = ui.item.index();
+
+                            grid.trigger('widget.sorted', {from: startIndex, to: endIndex});
+                        },
+                        start: function (e, ui) {
+                            ui.item.data('startIndex', ui.item.index());
+                            ui.placeholder.height(ui.item.find('.panel').innerHeight());
+                            ui.placeholder.width(ui.item.find('.panel').width());
+                        },
+                        forcePlaceholderSize: true
+                    });
+
+                    grid.on('click', '.fa.fa-trash', function () {
+                        var widget = $(this).parents('.widget');
+                        widget.hide(400, function () {
+                            widget.remove();
+                            grid.trigger('widget.removed', grid._cxWidgets[widget.data('widgetId')]);
+                        });
+                    });
+
+                    grid.on('click', '.fa.fa-refresh', function () {
+                        var widgetData = grid._cxWidgets[$(this).parents('.widget').data('widgetId')];
+                        widgetData.refreshContent($(this).parents('.widget'));
+                        grid.trigger('widget.refreshed', widgetData);
+                    });
+
+                    grid.on('click', '.fa.fa-cog', function () {
+                        var widgetData = grid._cxWidgets[$(this).parents('.widget').data('widgetId')];
+                        bootbox.dialog({
+                            title: widgetData.configurationTitle,
+                            message: widgetData.configurationTemplate({
+                                id: widgetData.id,
+                                value: 'ein wert'
+                            }),
+                            size: 'large',
+                            onEscape: true,
+                            buttons: {
+                                save: {
+                                    label: 'Speichern',
+                                    className: 'btn-primary',
+                                    callback: function (result) {
+                                        return widgetData.configurationSaveCallback(widgetData, result);
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+                    return this;
+                }
+            });
+        }(jQuery));
+    </script>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="dashboard"></div>
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        var service = Dashboard.default();
+        DashboardSamples.default(service);
+        console.log('service created');
+        var dashboard = $('.dashboard').dashboard();
+        service.findWidgetData().then(function (widgets) {
+            widgets.forEach(function (w) {
+                dashboard.addDashboardWidget(w);
+            });
+        })
+    });
+</script>
+
+</body>
+</html>
