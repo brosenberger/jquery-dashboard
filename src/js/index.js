@@ -19,3 +19,4 @@ export default function initializeDashboardDefaults() {
 }
 
 require('./view/DashboardView.js');
+require('./view/AddWidgetsDialog.js');

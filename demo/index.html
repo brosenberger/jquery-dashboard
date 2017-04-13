@@ -44,6 +44,12 @@
         var dashboard = $('.dashboard').dashboard({
             dashboardService: service
         }).dashboard("refresh");
+        $('h1 .fa.fa-plus-square').dashboardWidgetDialog({
+            dashboardService: service,
+            addCallback: function(widgetData) {
+                dashboard.dashboard("addWidget", widgetData);
+            }
+        });
     });
 </script>
 

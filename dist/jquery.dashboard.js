@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -211,6 +211,15 @@ function appendContextPath(contextPath, id) {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// Create a simple path alias to allow browserify to resolve
+// the runtime on a supported path.
+module.exports = __webpack_require__(19)['default'];
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -263,15 +272,6 @@ Exception.prototype = new Error();
 exports['default'] = Exception;
 module.exports = exports['default'];
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2V4Y2VwdGlvbi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQ0EsSUFBTSxVQUFVLEdBQUcsQ0FBQyxhQUFhLEVBQUUsVUFBVSxFQUFFLFlBQVksRUFBRSxTQUFTLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxPQUFPLENBQUMsQ0FBQzs7QUFFbkcsU0FBUyxTQUFTLENBQUMsT0FBTyxFQUFFLElBQUksRUFBRTtBQUNoQyxNQUFJLEdBQUcsR0FBRyxJQUFJLElBQUksSUFBSSxDQUFDLEdBQUc7TUFDdEIsSUFBSSxZQUFBO01BQ0osTUFBTSxZQUFBLENBQUM7QUFDWCxNQUFJLEdBQUcsRUFBRTtBQUNQLFFBQUksR0FBRyxHQUFHLENBQUMsS0FBSyxDQUFDLElBQUksQ0FBQztBQUN0QixVQUFNLEdBQUcsR0FBRyxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUM7O0FBRTFCLFdBQU8sSUFBSSxLQUFLLEdBQUcsSUFBSSxHQUFHLEdBQUcsR0FBRyxNQUFNLENBQUM7R0FDeEM7O0FBRUQsTUFBSSxHQUFHLEdBQUcsS0FBSyxDQUFDLFNBQVMsQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLElBQUksRUFBRSxPQUFPLENBQUMsQ0FBQzs7O0FBRzFELE9BQUssSUFBSSxHQUFHLEdBQUcsQ0FBQyxFQUFFLEdBQUcsR0FBRyxVQUFVLENBQUMsTUFBTSxFQUFFLEdBQUcsRUFBRSxFQUFFO0FBQ2hELFFBQUksQ0FBQyxVQUFVLENBQUMsR0FBRyxDQUFDLENBQUMsR0FBRyxHQUFHLENBQUMsVUFBVSxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUM7R0FDOUM7OztBQUdELE1BQUksS0FBSyxDQUFDLGlCQUFpQixFQUFFO0FBQzNCLFNBQUssQ0FBQyxpQkFBaUIsQ0FBQyxJQUFJLEVBQUUsU0FBUyxDQUFDLENBQUM7R0FDMUM7O0FBRUQsTUFBSTtBQUNGLFFBQUksR0FBRyxFQUFFO0FBQ1AsVUFBSSxDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUM7Ozs7QUFJdkIsVUFBSSxNQUFNLENBQUMsY0FBYyxFQUFFO0FBQ3pCLGNBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFFBQVEsRUFBRSxFQUFDLEtBQUssRUFBRSxNQUFNLEVBQUMsQ0FBQyxDQUFDO09BQ3hELE1BQU07QUFDTCxZQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztPQUN0QjtLQUNGO0dBQ0YsQ0FBQyxPQUFPLEdBQUcsRUFBRTs7R0FFYjtDQUNGOztBQUVELFNBQVMsQ0FBQyxTQUFTLEdBQUcsSUFBSSxLQUFLLEVBQUUsQ0FBQzs7cUJBRW5CLFNBQVMiLCJmaWxlIjoiZXhjZXB0aW9uLmpzIiwic291cmNlc0NvbnRlbnQiOlsiXG5jb25zdCBlcnJvclByb3BzID0gWydkZXNjcmlwdGlvbicsICdmaWxlTmFtZScsICdsaW5lTnVtYmVyJywgJ21lc3NhZ2UnLCAnbmFtZScsICdudW1iZXInLCAnc3RhY2snXTtcblxuZnVuY3Rpb24gRXhjZXB0aW9uKG1lc3NhZ2UsIG5vZGUpIHtcbiAgbGV0IGxvYyA9IG5vZGUgJiYgbm9kZS5sb2MsXG4gICAgICBsaW5lLFxuICAgICAgY29sdW1uO1xuICBpZiAobG9jKSB7XG4gICAgbGluZSA9IGxvYy5zdGFydC5saW5lO1xuICAgIGNvbHVtbiA9IGxvYy5zdGFydC5jb2x1bW47XG5cbiAgICBtZXNzYWdlICs9ICcgLSAnICsgbGluZSArICc6JyArIGNvbHVtbjtcbiAgfVxuXG4gIGxldCB0bXAgPSBFcnJvci5wcm90b3R5cGUuY29uc3RydWN0b3IuY2FsbCh0aGlzLCBtZXNzYWdlKTtcblxuICAvLyBVbmZvcnR1bmF0ZWx5IGVycm9ycyBhcmUgbm90IGVudW1lcmFibGUgaW4gQ2hyb21lIChhdCBsZWFzdCksIHNvIGBmb3IgcHJvcCBpbiB0bXBgIGRvZXNuJ3Qgd29yay5cbiAgZm9yIChsZXQgaWR4ID0gMDsgaWR4IDwgZXJyb3JQcm9wcy5sZW5ndGg7IGlkeCsrKSB7XG4gICAgdGhpc1tlcnJvclByb3BzW2lkeF1dID0gdG1wW2Vycm9yUHJvcHNbaWR4XV07XG4gIH1cblxuICAvKiBpc3RhbmJ1bCBpZ25vcmUgZWxzZSAqL1xuICBpZiAoRXJyb3IuY2FwdHVyZVN0YWNrVHJhY2UpIHtcbiAgICBFcnJvci5jYXB0dXJlU3RhY2tUcmFjZSh0aGlzLCBFeGNlcHRpb24pO1xuICB9XG5cbiAgdHJ5IHtcbiAgICBpZiAobG9jKSB7XG4gICAgICB0aGlzLmxpbmVOdW1iZXIgPSBsaW5lO1xuXG4gICAgICAvLyBXb3JrIGFyb3VuZCBpc3N1ZSB1bmRlciBzYWZhcmkgd2hlcmUgd2UgY2FuJ3QgZGlyZWN0bHkgc2V0IHRoZSBjb2x1bW4gdmFsdWVcbiAgICAgIC8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG4gICAgICBpZiAoT2JqZWN0LmRlZmluZVByb3BlcnR5KSB7XG4gICAgICAgIE9iamVjdC5kZWZpbmVQcm9wZXJ0eSh0aGlzLCAnY29sdW1uJywge3ZhbHVlOiBjb2x1bW59KTtcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIHRoaXMuY29sdW1uID0gY29sdW1uO1xuICAgICAgfVxuICAgIH1cbiAgfSBjYXRjaCAobm9wKSB7XG4gICAgLyogSWdub3JlIGlmIHRoZSBicm93c2VyIGlzIHZlcnkgcGFydGljdWxhciAqL1xuICB9XG59XG5cbkV4Y2VwdGlvbi5wcm90b3R5cGUgPSBuZXcgRXJyb3IoKTtcblxuZXhwb3J0IGRlZmF1bHQgRXhjZXB0aW9uO1xuIl19
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Create a simple path alias to allow browserify to resolve
-// the runtime on a supported path.
-module.exports = __webpack_require__(15)['default'];
 
 
 /***/ }),
@@ -334,15 +334,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _utils = __webpack_require__(0);
 
-var _exception = __webpack_require__(1);
+var _exception = __webpack_require__(2);
 
 var _exception2 = _interopRequireDefault(_exception);
 
-var _helpers = __webpack_require__(18);
+var _helpers = __webpack_require__(22);
 
-var _decorators = __webpack_require__(16);
+var _decorators = __webpack_require__(20);
 
-var _logger = __webpack_require__(26);
+var _logger = __webpack_require__(30);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -592,7 +592,7 @@ exports.Service = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _lodash = __webpack_require__(30);
+var _lodash = __webpack_require__(34);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -680,8 +680,169 @@ var Service = exports.Service = function () {
 }();
 
 /***/ }),
-/* 8 */,
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(16);
+
+(function ($) {
+    $.widget('brocode.dashboardWidgetDialog', {
+        options: {
+            dashboardService: undefined,
+            addCallback: function addCallback(widgetData) {
+                $(document).trigger('widget.added');
+            },
+            widgetModal: '#widget-add-modal',
+            modalTemplate: __webpack_require__(17),
+            listItemTemplate: __webpack_require__(18)
+        },
+        _create: function _create() {
+            var that = this;
+            var widgetModal = $(this.options.widgetModal);
+            if (widgetModal.length === 0) {
+                $('body').append(this.options.modalTemplate());
+            }
+            widgetModal = $(this.options.widgetModal);
+            widgetModal.find('#widget-search').listGroupFilter('#widget-list');
+            widgetModal.on('click', '.list-group-item .fa.fa-plus', function () {
+                that.options.dashboardService.createWidgetData($(this).parents('.list-group-item').data('type')).then(function (widgetData) {
+                    that.options.addCallback(widgetData);
+                });
+            });
+
+            this.element.click(function () {
+                widgetModal.find('.list-group-item').remove();
+                widgetModal.find('#widget-search').val('');
+                widgetModal.modal('show');
+                var modalList = widgetModal.find('.list-group');
+                var widgetList = that.options.dashboardService.findWidgets();
+                for (var widgetType in widgetList) {
+                    if (widgetList.hasOwnProperty(widgetType)) {
+                        modalList.append(that.options.listItemTemplate(widgetList[widgetType]));
+                    }
+                }
+            });
+        }
+    });
+})(jQuery);
+
+/***/ }),
 /* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(15);
+
+(function ($) {
+    $.widget('brocode.dashboard', {
+        _grid: undefined,
+        _widgets: [],
+        options: {
+            dashboardService: undefined
+        },
+        _create: function _create() {
+            this._initDashboard(this.element);
+            this._initRefreshAction(this.element);
+            this._initRemoveAction(this.element);
+            this._initConfigureAction(this.element);
+        },
+        addWidget: function addWidget(widgetData) {
+            this._widgets[widgetData.id] = widgetData;
+            var widgetElement = this.element.append(widgetData.widgetTemplate(widgetData)).sortable('refresh').find('.widget.widget-' + widgetData.id).show(400);
+            widgetData.initializeContent(widgetElement);
+            this.element.trigger('widget.added', widgetData);
+        },
+        refresh: function refresh() {
+            var that = this;
+            this.element.html('');
+            this._widgets = [];
+            this.options.dashboardService.findWidgetData().then(function (widgets) {
+                widgets.forEach(function (w) {
+                    that.addWidget(w);
+                });
+            });
+        },
+        _initRemoveAction: function _initRemoveAction(grid) {
+            var that = this;
+            grid.on('click', '.fa.fa-trash', function () {
+                var widget = $(this).parents('.widget');
+                widget.hide(400, function () {
+                    widget.remove();
+                    grid.trigger('widget.removed', that._widgets[widget.data('widgetId')]);
+                });
+            });
+            return this;
+        },
+        _initRefreshAction: function _initRefreshAction(grid) {
+            var that = this;
+            grid.on('click', '.fa.fa-refresh', function () {
+                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
+                widgetData.refreshContent($(this).parents('.widget'));
+                grid.trigger('widget.refreshed', widgetData);
+            });
+            return this;
+        },
+        _initConfigureAction: function _initConfigureAction(grid) {
+            var that = this;
+            grid.on('click', '.fa.fa-cog', function () {
+                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
+                bootbox.dialog({
+                    title: widgetData.configurationTitle,
+                    message: widgetData.configurationTemplate({
+                        id: widgetData.id,
+                        value: 'ein wert'
+                    }),
+                    size: 'large',
+                    onEscape: true,
+                    buttons: {
+                        save: {
+                            label: 'Speichern',
+                            className: 'btn-primary',
+                            callback: function callback(result) {
+                                return widgetData.configurationSaveCallback(widgetData, result);
+                            }
+                        }
+                    }
+                });
+            });
+            return this;
+        },
+        _initDashboard: function _initDashboard(grid) {
+            grid.sortable({
+                placeholder: {
+                    element: function element(currentItem) {
+                        return '<div class="' + currentItem.classList('col-').join(' ') + ' placee"></div>';
+                    },
+                    update: function update(contianer, p) {}
+                },
+                scroll: true,
+                handle: '.panel-heading',
+                tolerance: 'pointer',
+                update: function update(event, ui) {
+                    var startIndex = ui.item.data('startIndex');
+                    var endIndex = ui.item.index();
+
+                    grid.trigger('widget.sorted', { from: startIndex, to: endIndex });
+                },
+                start: function start(e, ui) {
+                    ui.item.data('startIndex', ui.item.index());
+                    ui.placeholder.height(ui.item.find('.panel').innerHeight());
+                    ui.placeholder.width(ui.item.find('.panel').width());
+                },
+                forcePlaceholderSize: true
+            });
+            return this;
+        }
+    });
+})(jQuery);
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -753,7 +914,7 @@ var Widget = exports.Widget = function () {
 }();
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -990,10 +1151,10 @@ module.exports = layouts;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Handlebars = __webpack_require__(2);
+var Handlebars = __webpack_require__(1);
 module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
     return "";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -1007,10 +1168,10 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
 },"useData":true});
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Handlebars = __webpack_require__(2);
+var Handlebars = __webpack_require__(1);
 module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
     return "";
 },"3":function(container,depth0,helpers,partials,data) {
@@ -1039,7 +1200,7 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
 },"useData":true});
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1050,7 +1211,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Service = exports.LocalStorageDataService = exports.DataService = exports.Widget = undefined;
 
-var _Widget = __webpack_require__(9);
+var _Widget = __webpack_require__(10);
 
 Object.defineProperty(exports, 'Widget', {
     enumerable: true,
@@ -1087,19 +1248,19 @@ Object.defineProperty(exports, 'Service', {
 });
 exports.default = initializeDashboardDefaults;
 
-var _handlebars = __webpack_require__(2);
+var _handlebars = __webpack_require__(1);
 
 var _handlebars2 = _interopRequireDefault(_handlebars);
 
-var _handlebarsLayouts = __webpack_require__(10);
+var _handlebarsLayouts = __webpack_require__(11);
 
 var _handlebarsLayouts2 = _interopRequireDefault(_handlebarsLayouts);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _handlebarsLayouts2.default.register(_handlebars2.default);
-_handlebars2.default.registerPartial('widget-layout', __webpack_require__(12));
-_handlebars2.default.registerPartial('widget-configuration-layout', __webpack_require__(11));
+_handlebars2.default.registerPartial('widget-layout', __webpack_require__(13));
+_handlebars2.default.registerPartial('widget-configuration-layout', __webpack_require__(12));
 
 function initializeDashboardDefaults() {
     var dataService = new Dashboard.LocalStorageDataService('storage');
@@ -1107,10 +1268,11 @@ function initializeDashboardDefaults() {
     return service;
 }
 
-__webpack_require__(32);
+__webpack_require__(9);
+__webpack_require__(8);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1136,7 +1298,58 @@ __webpack_require__(32);
 })(jQuery);
 
 /***/ }),
-/* 15 */
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+    $.fn.extend({
+        listGroupFilter: function listGroupFilter(listToFilter) {
+            var that = this;
+            that.on('keyup', function () {
+                var li;
+                var filterValue = that.val().toUpperCase();
+                var listItems = $(listToFilter).find('.list-group-item-heading, .list-group-item-text');
+                listItems.filter(function () {
+                    return $(this).text().toUpperCase().indexOf(filterValue) > -1;
+                }).parent('.list-group-item').show().attr('data-search', filterValue);
+                listItems.parent('.list-group-item:not([data-search=\'' + filterValue + '\'])').hide();
+            });
+            return this;
+        }
+    });
+})(jQuery);
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Handlebars = __webpack_require__(1);
+module.exports = (Handlebars['default'] || Handlebars).template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div id=\"widget-add-modal\" class=\"modal fade\">\r\n    <div class=\"modal-dialog\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times</button>\r\n                <h4 class=\"modal-title\">\r\n                    Widget hinzufügen\r\n                </h4>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-xs-12\">\r\n                        <div class=\"input-group\">\r\n                            <input class=\"form-control\" id=\"widget-search\" type=\"search\" placeholder=\"Nach Widget suchen...\"/>\r\n                            <div class=\"input-group-addon\"><i class=\"fa fa-search\"></i></div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"row\">\r\n                    <div class=\"col-xs-12\">\r\n                        <div id=\"widget-list\" class=\"list-group\">\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+},"useData":true});
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Handlebars = __webpack_require__(1);
+module.exports = (Handlebars['default'] || Handlebars).template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=container.escapeExpression, alias2=container.lambda;
+
+  return "<div class=\"list-group-item\" data-type=\""
+    + alias1(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"type","hash":{},"data":data}) : helper)))
+    + "\">\r\n    <h4 class=\"list-group-item-heading\">\r\n        "
+    + alias1(alias2(((stack1 = (depth0 != null ? depth0.description : depth0)) != null ? stack1.title : stack1), depth0))
+    + "\r\n        <i class=\"fa fa-plus pull-right\" title=\"Hinzufügen\"></i>\r\n    </h4>\r\n    <p class=\"list-group-item-text\">"
+    + alias1(alias2(((stack1 = (depth0 != null ? depth0.description : depth0)) != null ? stack1.description : stack1), depth0))
+    + "</p>\r\n</div>";
+},"useData":true});
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1158,11 +1371,11 @@ var base = _interopRequireWildcard(_handlebarsBase);
 // Each of these augment the Handlebars object. No need to setup here.
 // (This is done to easily share code between commonjs and browse envs)
 
-var _handlebarsSafeString = __webpack_require__(29);
+var _handlebarsSafeString = __webpack_require__(33);
 
 var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
 
-var _handlebarsException = __webpack_require__(1);
+var _handlebarsException = __webpack_require__(2);
 
 var _handlebarsException2 = _interopRequireDefault(_handlebarsException);
 
@@ -1170,11 +1383,11 @@ var _handlebarsUtils = __webpack_require__(0);
 
 var Utils = _interopRequireWildcard(_handlebarsUtils);
 
-var _handlebarsRuntime = __webpack_require__(28);
+var _handlebarsRuntime = __webpack_require__(32);
 
 var runtime = _interopRequireWildcard(_handlebarsRuntime);
 
-var _handlebarsNoConflict = __webpack_require__(27);
+var _handlebarsNoConflict = __webpack_require__(31);
 
 var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
@@ -1209,7 +1422,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1221,7 +1434,7 @@ exports.registerDefaultDecorators = registerDefaultDecorators;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _decoratorsInline = __webpack_require__(17);
+var _decoratorsInline = __webpack_require__(21);
 
 var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
 
@@ -1232,7 +1445,7 @@ function registerDefaultDecorators(instance) {
 
 
 /***/ }),
-/* 17 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1268,7 +1481,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 18 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1280,31 +1493,31 @@ exports.registerDefaultHelpers = registerDefaultHelpers;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _helpersBlockHelperMissing = __webpack_require__(19);
+var _helpersBlockHelperMissing = __webpack_require__(23);
 
 var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
 
-var _helpersEach = __webpack_require__(20);
+var _helpersEach = __webpack_require__(24);
 
 var _helpersEach2 = _interopRequireDefault(_helpersEach);
 
-var _helpersHelperMissing = __webpack_require__(21);
+var _helpersHelperMissing = __webpack_require__(25);
 
 var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
 
-var _helpersIf = __webpack_require__(22);
+var _helpersIf = __webpack_require__(26);
 
 var _helpersIf2 = _interopRequireDefault(_helpersIf);
 
-var _helpersLog = __webpack_require__(23);
+var _helpersLog = __webpack_require__(27);
 
 var _helpersLog2 = _interopRequireDefault(_helpersLog);
 
-var _helpersLookup = __webpack_require__(24);
+var _helpersLookup = __webpack_require__(28);
 
 var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
 
-var _helpersWith = __webpack_require__(25);
+var _helpersWith = __webpack_require__(29);
 
 var _helpersWith2 = _interopRequireDefault(_helpersWith);
 
@@ -1321,7 +1534,7 @@ function registerDefaultHelpers(instance) {
 
 
 /***/ }),
-/* 19 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1367,7 +1580,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 20 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1380,7 +1593,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _utils = __webpack_require__(0);
 
-var _exception = __webpack_require__(1);
+var _exception = __webpack_require__(2);
 
 var _exception2 = _interopRequireDefault(_exception);
 
@@ -1468,7 +1681,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1479,7 +1692,7 @@ exports.__esModule = true;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _exception = __webpack_require__(1);
+var _exception = __webpack_require__(2);
 
 var _exception2 = _interopRequireDefault(_exception);
 
@@ -1500,7 +1713,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1536,7 +1749,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1569,7 +1782,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1588,7 +1801,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 25 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1628,7 +1841,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 26 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1682,7 +1895,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 27 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1710,7 +1923,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1735,7 +1948,7 @@ var _utils = __webpack_require__(0);
 
 var Utils = _interopRequireWildcard(_utils);
 
-var _exception = __webpack_require__(1);
+var _exception = __webpack_require__(2);
 
 var _exception2 = _interopRequireDefault(_exception);
 
@@ -2014,7 +2227,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2036,7 +2249,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -19125,10 +19338,10 @@ module.exports = exports['default'];
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(31)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(35)(module)))
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -19154,118 +19367,6 @@ module.exports = function(module) {
 	return module;
 };
 
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(14);
-
-(function ($) {
-    $.widget('brocode.dashboard', {
-        _grid: undefined,
-        _widgets: [],
-        options: {
-            dashboardService: undefined
-        },
-        _create: function _create() {
-            this._initDashboard(this.element);
-            this._initRefreshAction(this.element);
-            this._initRemoveAction(this.element);
-            this._initConfigureAction(this.element);
-        },
-        addWidget: function addWidget(widgetData) {
-            this._widgets[widgetData.id] = widgetData;
-            var widgetElement = this.element.append(widgetData.widgetTemplate(widgetData)).sortable('refresh').find('.widget.widget-' + widgetData.id).show(400);
-            widgetData.initializeContent(widgetElement);
-            this.element.trigger('widget.added', widgetData);
-        },
-        refresh: function refresh() {
-            var that = this;
-            this.element.html('');
-            this._widgets = [];
-            this.options.dashboardService.findWidgetData().then(function (widgets) {
-                widgets.forEach(function (w) {
-                    that.addWidget(w);
-                });
-            });
-        },
-        _initRemoveAction: function _initRemoveAction(grid) {
-            var that = this;
-            grid.on('click', '.fa.fa-trash', function () {
-                var widget = $(this).parents('.widget');
-                widget.hide(400, function () {
-                    widget.remove();
-                    grid.trigger('widget.removed', that._widgets[widget.data('widgetId')]);
-                });
-            });
-            return this;
-        },
-        _initRefreshAction: function _initRefreshAction(grid) {
-            var that = this;
-            grid.on('click', '.fa.fa-refresh', function () {
-                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
-                widgetData.refreshContent($(this).parents('.widget'));
-                grid.trigger('widget.refreshed', widgetData);
-            });
-            return this;
-        },
-        _initConfigureAction: function _initConfigureAction(grid) {
-            var that = this;
-            grid.on('click', '.fa.fa-cog', function () {
-                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
-                bootbox.dialog({
-                    title: widgetData.configurationTitle,
-                    message: widgetData.configurationTemplate({
-                        id: widgetData.id,
-                        value: 'ein wert'
-                    }),
-                    size: 'large',
-                    onEscape: true,
-                    buttons: {
-                        save: {
-                            label: 'Speichern',
-                            className: 'btn-primary',
-                            callback: function callback(result) {
-                                return widgetData.configurationSaveCallback(widgetData, result);
-                            }
-                        }
-                    }
-                });
-            });
-            return this;
-        },
-        _initDashboard: function _initDashboard(grid) {
-            grid.sortable({
-                placeholder: {
-                    element: function element(currentItem) {
-                        return '<div class="' + currentItem.classList('col-').join(' ') + ' placee"></div>';
-                    },
-                    update: function update(contianer, p) {}
-                },
-                scroll: true,
-                handle: '.panel-heading',
-                tolerance: 'pointer',
-                update: function update(event, ui) {
-                    var startIndex = ui.item.data('startIndex');
-                    var endIndex = ui.item.index();
-
-                    grid.trigger('widget.sorted', { from: startIndex, to: endIndex });
-                },
-                start: function start(e, ui) {
-                    ui.item.data('startIndex', ui.item.index());
-                    ui.placeholder.height(ui.item.find('.panel').innerHeight());
-                    ui.placeholder.width(ui.item.find('.panel').width());
-                },
-                forcePlaceholderSize: true
-            });
-            return this;
-        }
-    });
-})(jQuery);
 
 /***/ })
 /******/ ]);
