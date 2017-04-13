@@ -1,10 +1,10 @@
 
-import {Widget} from '../widgets/Widget';
+import {Widget} from './../../core/widgets/Widget';
 
 export class ChuckNorrisWidget extends Widget {
     constructor() {
         super('chuckNorrisWidget');
-        this.widgetTemplate = require('../../handlebars/DashboardSamples/widgetChuckNorris.handlebars');
+        this.widgetTemplate = require('./../handlebars/widgetChuckNorris.handlebars');
         this.description = {
             title: 'A little story about Chuck',
             description: 'Tells you some random fact about Chuck Norris'

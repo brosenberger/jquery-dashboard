@@ -1,4 +1,4 @@
-require('./fListGroupFilter.js');
+require('./../functions/fListGroupFilter.js');
 
 (function ($) {
     $.widget('brocode.dashboardWidgetDialog', {
@@ -8,8 +8,8 @@ require('./fListGroupFilter.js');
                 $(document).trigger('widget.added');
             },
             widgetModal: '#widget-add-modal',
-            modalTemplate: require('../../handlebars/DashboardTemplates/addWidgetsDialog.handlebars'),
-            listItemTemplate: require('../../handlebars/DashboardTemplates/listGroupItem.handlebars')
+            modalTemplate: require('./../handlebars/addWidgetsDialog.handlebars'),
+            listItemTemplate: require('./../handlebars/listGroupItem.handlebars')
         },
         _create: function() {
             var that = this;

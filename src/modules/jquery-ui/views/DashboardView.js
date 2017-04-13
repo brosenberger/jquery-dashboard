@@ -1,4 +1,4 @@
-require('./fClassList.js');
+require('./../functions/fClassList.js');
 
 (function ($) {
     $.widget('brocode.dashboard', {

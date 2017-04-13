@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("samples", [], factory);
+		define("templates", [], factory);
 	else if(typeof exports === 'object')
-		exports["samples"] = factory();
+		exports["templates"] = factory();
 	else
-		root["Dashboard"] = root["Dashboard"] || {}, root["Dashboard"]["samples"] = factory();
+		root["Dashboard"] = root["Dashboard"] || {}, root["Dashboard"]["templates"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 21);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1313,78 +1313,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Widget = exports.Widget = function () {
-    function Widget(type) {
-        _classCallCheck(this, Widget);
-
-        this.type = type;
-        this.sizeConfiguration = "col-xs-12 col-md-4";
-        this.configurable = false;
-        this.refreshable = false;
-    }
-
-    _createClass(Widget, [{
-        key: 'initialize',
-        value: function initialize(widgetElement) {
-            throw 'initialize - I have to be implemented by the widget!';
-        }
-    }, {
-        key: 'configure',
-        value: function configure(widgetElement) {
-            window.alert('i have to be configured!');
-        }
-    }, {
-        key: 'initializeContent',
-        value: function initializeContent(widgetElement) {
-            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
-                this.configure(widgetElement);
-            } else {
-                this.initialize(widgetElement);
-            }
-        }
-    }, {
-        key: 'refreshContent',
-        value: function refreshContent(widgetElement) {
-            if (this.refreshable && this.refresh === undefined) {
-                throw 'refresh - i have to have a refresh method!';
-            } else {
-                this.refresh(widgetElement);
-            }
-        }
-    }, {
-        key: 'showProgressSpinner',
-        value: function showProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-body').fadeOut(300, function () {
-                widgetElement.find('.panel-loading').fadeIn(500);
-            });
-        }
-    }, {
-        key: 'hideProgressSpinner',
-        value: function hideProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-loading').fadeOut(300, function () {
-                widgetElement.find('.panel-body').fadeIn(500);
-            });
-        }
-    }]);
-
-    return Widget;
-}();
-
-/***/ }),
+/* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1699,124 +1628,7 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
     + "\r\n        </div>\r\n    </div>\r\n</div>";
 },"useData":true});
 
-/***/ }),
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.ChuckNorrisWidget = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Widget2 = __webpack_require__(20);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
-    _inherits(ChuckNorrisWidget, _Widget);
-
-    function ChuckNorrisWidget() {
-        _classCallCheck(this, ChuckNorrisWidget);
-
-        var _this = _possibleConstructorReturn(this, (ChuckNorrisWidget.__proto__ || Object.getPrototypeOf(ChuckNorrisWidget)).call(this, 'chuckNorrisWidget'));
-
-        _this.widgetTemplate = __webpack_require__(38);
-        _this.description = {
-            title: 'A little story about Chuck',
-            description: 'Tells you some random fact about Chuck Norris'
-        };
-        _this.sizeConfiguration = 'col-xs-12 col-md-4';
-        _this.refreshable = true;
-        return _this;
-    }
-
-    _createClass(ChuckNorrisWidget, [{
-        key: 'initialize',
-        value: function initialize(widgetElement) {
-            this.showProgressSpinner(widgetElement);
-            var that = this;
-            $.get('https://api.chucknorris.io/jokes/random').then(function (data) {
-                widgetElement.find('.panel-body').html(data.value);
-                that.hideProgressSpinner(widgetElement);
-            });
-        }
-    }, {
-        key: 'refresh',
-        value: function refresh(widgetElement) {
-            this.initialize(widgetElement);
-        }
-    }]);
-
-    return ChuckNorrisWidget;
-}(_Widget2.Widget);
-
-/***/ }),
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _ChuckWidget = __webpack_require__(30);
-
-Object.defineProperty(exports, 'ChuckNorrisWidget', {
-    enumerable: true,
-    get: function get() {
-        return _ChuckWidget.ChuckNorrisWidget;
-    }
-});
-exports.default = initializeDefault;
-__webpack_require__(21);
-
-function initializeDefault(service) {
-    service.registerWidget(new Dashboard.samples.ChuckNorrisWidget());
-}
-
-/***/ }),
-/* 36 */,
-/* 37 */,
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Handlebars = __webpack_require__(2);
-module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
-
-  return ((stack1 = (helpers.content || (depth0 && depth0.content) || alias2).call(alias1,"header",{"name":"content","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.content || (depth0 && depth0.content) || alias2).call(alias1,"content",{"name":"content","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"2":function(container,depth0,helpers,partials,data) {
-    return "        A little story of Chuck\r\n";
-},"4":function(container,depth0,helpers,partials,data) {
-    return "\r\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return ((stack1 = (helpers.extend || (depth0 && depth0.extend) || helpers.helperMissing).call(depth0 != null ? depth0 : {},"widget-layout",{"name":"extend","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"useData":true});
-
 /***/ })
 /******/ ]);
 });
-//# sourceMappingURL=jquery.dashboard.samples.js.map
+//# sourceMappingURL=jquery.dashboard.templates.js.map

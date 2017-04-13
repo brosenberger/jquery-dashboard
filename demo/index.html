@@ -15,7 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <script src="../dist/jquery.dashboard.js" charset="utf-8"></script>
+    <script src="../dist/jquery.dashboard.core.js" charset="utf-8"></script>
+    <script src="../dist/jquery.dashboard.templates.js" charset="utf-8"></script>
+    <script src="../dist/jquery.dashboard.jqueryui.js" charset="utf-8"></script>
     <script src="../dist/jquery.dashboard.samples.js" charset="utf-8"></script>
     <style type="text/css">
         .placee {
@@ -70,9 +72,9 @@
 <script type="application/javascript">
     $(document).ready(function () {
         // initialize dashboard services
-        var service = Dashboard.default();
+        var service = Dashboard.core.default();
         // register sample widgets
-        DashboardSamples.default(service);
+        Dashboard.samples.default(service);
         // create dashboard view and refresh list
         var dashboard = $('.dashboard').dashboard({
             dashboardService: service

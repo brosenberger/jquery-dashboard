@@ -11,25 +11,23 @@ let plugins = [], outputFile, entryFile = 'index.js', library = 'Dashboard';
 
 if (env === 'build') {
     plugins.push(new UglifyJsPlugin({minimize: true}));
-    outputFile = libraryName + '.min.js';
+    outputFile = '.min.js';
 } else {
-    if (env === 'sample') {
-        entryFile = 'samples.js';
-        libraryName = 'jquery.dashboard.samples';
-        library = 'DashboardSamples';
-    }
-
-    outputFile = libraryName + '.js';
+    outputFile = '.js';
 }
 
-
 const config = {
-    entry: __dirname + '/src/js/'+entryFile,
+    entry: {
+        core: __dirname + '/src/modules/core/index.js',
+        templates: __dirname + '/src/modules/templates/index.js',
+        jqueryui: __dirname + '/src/modules/jquery-ui/index.js',
+        samples: __dirname + '/src/modules/samples/index.js',
+    },
     devtool: 'source-map',
     output: {
         path: __dirname + '/dist',
-        filename: outputFile,
-        library: library,
+        filename: libraryName+".[name]"+outputFile,
+        library: ["Dashboard", "[name]"],
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
@@ -47,7 +45,7 @@ const config = {
         ]
     },
     resolve: {
-        modules: [path.resolve('./node_modules'), path.resolve('./src')],
+        modules: [path.resolve('./node_modules'), path.resolve('./modules')],
         extensions: ['.json', '.js', '.handlebars'],
         alias: {
             'handlebars': 'handlebars/runtime.js'
