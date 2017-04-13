@@ -38,12 +38,15 @@
 
 <script type="application/javascript">
     $(document).ready(function () {
+        // initialize dashboard services
         var service = Dashboard.default();
+        // register sample widgets
         DashboardSamples.default(service);
-        console.log('service created');
+        // create dashboard view and refresh list
         var dashboard = $('.dashboard').dashboard({
             dashboardService: service
         }).dashboard("refresh");
+        // initialize widget add dialog
         $('h1 .fa.fa-plus-square').dashboardWidgetDialog({
             dashboardService: service,
             addCallback: function(widgetData) {
