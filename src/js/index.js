@@ -17,3 +17,5 @@ export default function initializeDashboardDefaults() {
     let service = new Dashboard.Service(dataService);
     return service;
 }
+
+require('./view/DashboardView.js');

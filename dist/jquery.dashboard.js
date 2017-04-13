@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -271,7 +271,7 @@ module.exports = exports['default'];
 
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
-module.exports = __webpack_require__(12)['default'];
+module.exports = __webpack_require__(15)['default'];
 
 
 /***/ }),
@@ -338,11 +338,11 @@ var _exception = __webpack_require__(1);
 
 var _exception2 = _interopRequireDefault(_exception);
 
-var _helpers = __webpack_require__(15);
+var _helpers = __webpack_require__(18);
 
-var _decorators = __webpack_require__(13);
+var _decorators = __webpack_require__(16);
 
-var _logger = __webpack_require__(23);
+var _logger = __webpack_require__(26);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -432,6 +432,33 @@ exports.logger = _logger2['default'];
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -552,7 +579,7 @@ var LocalStorageDataService = exports.LocalStorageDataService = function (_DataS
 }(_DataService2.DataService);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -565,7 +592,7 @@ exports.Service = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _lodash = __webpack_require__(28);
+var _lodash = __webpack_require__(30);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -653,7 +680,8 @@ var Service = exports.Service = function () {
 }();
 
 /***/ }),
-/* 7 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -725,7 +753,7 @@ var Widget = exports.Widget = function () {
 }();
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -962,7 +990,7 @@ module.exports = layouts;
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Handlebars = __webpack_require__(2);
@@ -979,7 +1007,7 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
 },"useData":true});
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Handlebars = __webpack_require__(2);
@@ -1011,7 +1039,7 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
 },"useData":true});
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1022,7 +1050,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Service = exports.LocalStorageDataService = exports.DataService = exports.Widget = undefined;
 
-var _Widget = __webpack_require__(7);
+var _Widget = __webpack_require__(9);
 
 Object.defineProperty(exports, 'Widget', {
     enumerable: true,
@@ -1040,7 +1068,7 @@ Object.defineProperty(exports, 'DataService', {
     }
 });
 
-var _LocalStorageDataService = __webpack_require__(5);
+var _LocalStorageDataService = __webpack_require__(6);
 
 Object.defineProperty(exports, 'LocalStorageDataService', {
     enumerable: true,
@@ -1049,7 +1077,7 @@ Object.defineProperty(exports, 'LocalStorageDataService', {
     }
 });
 
-var _Service = __webpack_require__(6);
+var _Service = __webpack_require__(7);
 
 Object.defineProperty(exports, 'Service', {
     enumerable: true,
@@ -1063,15 +1091,15 @@ var _handlebars = __webpack_require__(2);
 
 var _handlebars2 = _interopRequireDefault(_handlebars);
 
-var _handlebarsLayouts = __webpack_require__(8);
+var _handlebarsLayouts = __webpack_require__(10);
 
 var _handlebarsLayouts2 = _interopRequireDefault(_handlebarsLayouts);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _handlebarsLayouts2.default.register(_handlebars2.default);
-_handlebars2.default.registerPartial('widget-layout', __webpack_require__(10));
-_handlebars2.default.registerPartial('widget-configuration-layout', __webpack_require__(9));
+_handlebars2.default.registerPartial('widget-layout', __webpack_require__(12));
+_handlebars2.default.registerPartial('widget-configuration-layout', __webpack_require__(11));
 
 function initializeDashboardDefaults() {
     var dataService = new Dashboard.LocalStorageDataService('storage');
@@ -1079,8 +1107,36 @@ function initializeDashboardDefaults() {
     return service;
 }
 
+__webpack_require__(32);
+
 /***/ }),
-/* 12 */
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+    $.fn.extend({
+        classList: function classList(prefix) {
+            var list = this[0].className.split(/\s+/);
+            if (prefix) {
+                var prefixed = [];
+                $.each(list, function (index, item) {
+                    if (item.startsWith(prefix)) {
+                        prefixed[index] = item;
+                    }
+                });
+                return prefixed;
+            } else {
+                return list;
+            }
+        }
+    });
+})(jQuery);
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1102,7 +1158,7 @@ var base = _interopRequireWildcard(_handlebarsBase);
 // Each of these augment the Handlebars object. No need to setup here.
 // (This is done to easily share code between commonjs and browse envs)
 
-var _handlebarsSafeString = __webpack_require__(26);
+var _handlebarsSafeString = __webpack_require__(29);
 
 var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
 
@@ -1114,11 +1170,11 @@ var _handlebarsUtils = __webpack_require__(0);
 
 var Utils = _interopRequireWildcard(_handlebarsUtils);
 
-var _handlebarsRuntime = __webpack_require__(25);
+var _handlebarsRuntime = __webpack_require__(28);
 
 var runtime = _interopRequireWildcard(_handlebarsRuntime);
 
-var _handlebarsNoConflict = __webpack_require__(24);
+var _handlebarsNoConflict = __webpack_require__(27);
 
 var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
@@ -1153,7 +1209,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1165,7 +1221,7 @@ exports.registerDefaultDecorators = registerDefaultDecorators;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _decoratorsInline = __webpack_require__(14);
+var _decoratorsInline = __webpack_require__(17);
 
 var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
 
@@ -1176,7 +1232,7 @@ function registerDefaultDecorators(instance) {
 
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1212,7 +1268,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1224,31 +1280,31 @@ exports.registerDefaultHelpers = registerDefaultHelpers;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _helpersBlockHelperMissing = __webpack_require__(16);
+var _helpersBlockHelperMissing = __webpack_require__(19);
 
 var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
 
-var _helpersEach = __webpack_require__(17);
+var _helpersEach = __webpack_require__(20);
 
 var _helpersEach2 = _interopRequireDefault(_helpersEach);
 
-var _helpersHelperMissing = __webpack_require__(18);
+var _helpersHelperMissing = __webpack_require__(21);
 
 var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
 
-var _helpersIf = __webpack_require__(19);
+var _helpersIf = __webpack_require__(22);
 
 var _helpersIf2 = _interopRequireDefault(_helpersIf);
 
-var _helpersLog = __webpack_require__(20);
+var _helpersLog = __webpack_require__(23);
 
 var _helpersLog2 = _interopRequireDefault(_helpersLog);
 
-var _helpersLookup = __webpack_require__(21);
+var _helpersLookup = __webpack_require__(24);
 
 var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
 
-var _helpersWith = __webpack_require__(22);
+var _helpersWith = __webpack_require__(25);
 
 var _helpersWith2 = _interopRequireDefault(_helpersWith);
 
@@ -1265,7 +1321,7 @@ function registerDefaultHelpers(instance) {
 
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1311,7 +1367,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1412,7 +1468,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1444,7 +1500,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1480,7 +1536,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1513,7 +1569,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1532,7 +1588,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1572,7 +1628,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1626,7 +1682,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1651,10 +1707,10 @@ exports['default'] = function (Handlebars) {
 module.exports = exports['default'];
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL25vLWNvbmZsaWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O3FCQUNlLFVBQVMsVUFBVSxFQUFFOztBQUVsQyxNQUFJLElBQUksR0FBRyxPQUFPLE1BQU0sS0FBSyxXQUFXLEdBQUcsTUFBTSxHQUFHLE1BQU07TUFDdEQsV0FBVyxHQUFHLElBQUksQ0FBQyxVQUFVLENBQUM7O0FBRWxDLFlBQVUsQ0FBQyxVQUFVLEdBQUcsWUFBVztBQUNqQyxRQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssVUFBVSxFQUFFO0FBQ2xDLFVBQUksQ0FBQyxVQUFVLEdBQUcsV0FBVyxDQUFDO0tBQy9CO0FBQ0QsV0FBTyxVQUFVLENBQUM7R0FDbkIsQ0FBQztDQUNIIiwiZmlsZSI6Im5vLWNvbmZsaWN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyogZ2xvYmFsIHdpbmRvdyAqL1xuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oSGFuZGxlYmFycykge1xuICAvKiBpc3RhbmJ1bCBpZ25vcmUgbmV4dCAqL1xuICBsZXQgcm9vdCA9IHR5cGVvZiBnbG9iYWwgIT09ICd1bmRlZmluZWQnID8gZ2xvYmFsIDogd2luZG93LFxuICAgICAgJEhhbmRsZWJhcnMgPSByb290LkhhbmRsZWJhcnM7XG4gIC8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG4gIEhhbmRsZWJhcnMubm9Db25mbGljdCA9IGZ1bmN0aW9uKCkge1xuICAgIGlmIChyb290LkhhbmRsZWJhcnMgPT09IEhhbmRsZWJhcnMpIHtcbiAgICAgIHJvb3QuSGFuZGxlYmFycyA9ICRIYW5kbGViYXJzO1xuICAgIH1cbiAgICByZXR1cm4gSGFuZGxlYmFycztcbiAgfTtcbn1cbiJdfQ==
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1958,7 +2014,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1980,34 +2036,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -19096,10 +19125,10 @@ module.exports = g;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27), __webpack_require__(29)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(31)(module)))
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -19125,6 +19154,118 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(14);
+
+(function ($) {
+    $.widget('brocode.dashboard', {
+        _grid: undefined,
+        _widgets: [],
+        options: {
+            dashboardService: undefined
+        },
+        _create: function _create() {
+            this._initDashboard(this.element);
+            this._initRefreshAction(this.element);
+            this._initRemoveAction(this.element);
+            this._initConfigureAction(this.element);
+        },
+        addWidget: function addWidget(widgetData) {
+            this._widgets[widgetData.id] = widgetData;
+            var widgetElement = this.element.append(widgetData.widgetTemplate(widgetData)).sortable('refresh').find('.widget.widget-' + widgetData.id).show(400);
+            widgetData.initializeContent(widgetElement);
+            this.element.trigger('widget.added', widgetData);
+        },
+        refresh: function refresh() {
+            var that = this;
+            this.element.html('');
+            this._widgets = [];
+            this.options.dashboardService.findWidgetData().then(function (widgets) {
+                widgets.forEach(function (w) {
+                    that.addWidget(w);
+                });
+            });
+        },
+        _initRemoveAction: function _initRemoveAction(grid) {
+            var that = this;
+            grid.on('click', '.fa.fa-trash', function () {
+                var widget = $(this).parents('.widget');
+                widget.hide(400, function () {
+                    widget.remove();
+                    grid.trigger('widget.removed', that._widgets[widget.data('widgetId')]);
+                });
+            });
+            return this;
+        },
+        _initRefreshAction: function _initRefreshAction(grid) {
+            var that = this;
+            grid.on('click', '.fa.fa-refresh', function () {
+                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
+                widgetData.refreshContent($(this).parents('.widget'));
+                grid.trigger('widget.refreshed', widgetData);
+            });
+            return this;
+        },
+        _initConfigureAction: function _initConfigureAction(grid) {
+            var that = this;
+            grid.on('click', '.fa.fa-cog', function () {
+                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
+                bootbox.dialog({
+                    title: widgetData.configurationTitle,
+                    message: widgetData.configurationTemplate({
+                        id: widgetData.id,
+                        value: 'ein wert'
+                    }),
+                    size: 'large',
+                    onEscape: true,
+                    buttons: {
+                        save: {
+                            label: 'Speichern',
+                            className: 'btn-primary',
+                            callback: function callback(result) {
+                                return widgetData.configurationSaveCallback(widgetData, result);
+                            }
+                        }
+                    }
+                });
+            });
+            return this;
+        },
+        _initDashboard: function _initDashboard(grid) {
+            grid.sortable({
+                placeholder: {
+                    element: function element(currentItem) {
+                        return '<div class="' + currentItem.classList('col-').join(' ') + ' placee"></div>';
+                    },
+                    update: function update(contianer, p) {}
+                },
+                scroll: true,
+                handle: '.panel-heading',
+                tolerance: 'pointer',
+                update: function update(event, ui) {
+                    var startIndex = ui.item.data('startIndex');
+                    var endIndex = ui.item.index();
+
+                    grid.trigger('widget.sorted', { from: startIndex, to: endIndex });
+                },
+                start: function start(e, ui) {
+                    ui.item.data('startIndex', ui.item.index());
+                    ui.placeholder.height(ui.item.find('.panel').innerHeight());
+                    ui.placeholder.width(ui.item.find('.panel').width());
+                },
+                forcePlaceholderSize: true
+            });
+            return this;
+        }
+    });
+})(jQuery);
 
 /***/ })
 /******/ ]);
