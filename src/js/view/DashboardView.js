@@ -38,8 +38,10 @@ require('./fClassList.js');
             grid.on('click', '.fa.fa-trash', function () {
                 var widget = $(this).parents('.widget');
                 widget.hide(400, function () {
+                    var widgetId = widget.data('widgetId');
                     widget.remove();
-                    grid.trigger('widget.removed', that._widgets[widget.data('widgetId')]);
+                    grid.trigger('widget.removed', that._widgets[widgetId]);
+                    that.options.dashboardService.removeWidgetData(widgetId);
                 });
             });
             return this;
