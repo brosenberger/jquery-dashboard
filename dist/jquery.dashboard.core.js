@@ -73,12 +73,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 31);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 20:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88,116 +88,51 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _Widget = __webpack_require__(7);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Widget = exports.Widget = function () {
-    function Widget(type) {
-        _classCallCheck(this, Widget);
-
-        this.type = type;
-        this.sizeConfiguration = "col-xs-12 col-md-4";
-        this.configurable = false;
-        this.refreshable = false;
+Object.defineProperty(exports, 'Widget', {
+    enumerable: true,
+    get: function get() {
+        return _Widget.Widget;
     }
-
-    _createClass(Widget, [{
-        key: 'initialize',
-        value: function initialize(widgetElement) {
-            throw 'initialize - I have to be implemented by the widget!';
-        }
-    }, {
-        key: 'configure',
-        value: function configure(widgetElement) {
-            window.alert('i have to be configured!');
-        }
-    }, {
-        key: 'initializeContent',
-        value: function initializeContent(widgetElement) {
-            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
-                this.configure(widgetElement);
-            } else {
-                this.initialize(widgetElement);
-            }
-        }
-    }, {
-        key: 'refreshContent',
-        value: function refreshContent(widgetElement) {
-            if (this.refreshable && this.refresh === undefined) {
-                throw 'refresh - i have to have a refresh method!';
-            } else {
-                this.refresh(widgetElement);
-            }
-        }
-    }, {
-        key: 'showProgressSpinner',
-        value: function showProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-body').fadeOut(300, function () {
-                widgetElement.find('.panel-loading').fadeIn(500);
-            });
-        }
-    }, {
-        key: 'hideProgressSpinner',
-        value: function hideProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-loading').fadeOut(300, function () {
-                widgetElement.find('.panel-body').fadeIn(500);
-            });
-        }
-    }]);
-
-    return Widget;
-}();
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _DataService = __webpack_require__(6);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var DataService = exports.DataService = function () {
-    function DataService() {
-        _classCallCheck(this, DataService);
+Object.defineProperty(exports, 'DataService', {
+    enumerable: true,
+    get: function get() {
+        return _DataService.DataService;
     }
+});
 
-    _createClass(DataService, [{
-        key: 'createWidgetConfiguration',
-        value: function createWidgetConfiguration(widgetType) {
-            throw 'createWigetConfiguration not implemented';
-        }
-    }, {
-        key: 'findWidgetConfigurations',
-        value: function findWidgetConfigurations() {
-            throw 'findWidgetConfigurations not implemented';
-        }
-    }, {
-        key: 'removeWidgetConfiguration',
-        value: function removeWidgetConfiguration(widgetId) {
-            throw 'removeWidgetConfiguration not implemented';
-        }
-    }, {
-        key: 'sortWidgetConfiguration',
-        value: function sortWidgetConfiguration(from, to) {
-            throw 'sortWidgetConfiguration not implemented';
-        }
-    }]);
+var _LocalStorageDataService = __webpack_require__(27);
 
-    return DataService;
-}();
+Object.defineProperty(exports, 'LocalStorageDataService', {
+    enumerable: true,
+    get: function get() {
+        return _LocalStorageDataService.LocalStorageDataService;
+    }
+});
+
+var _Service = __webpack_require__(28);
+
+Object.defineProperty(exports, 'Service', {
+    enumerable: true,
+    get: function get() {
+        return _Service.Service;
+    }
+});
+exports.default = initializeDashboardDefaults;
+function initializeDashboardDefaults() {
+    var dataService = new Dashboard.core.LocalStorageDataService('storage');
+    var service = new Dashboard.core.Service(dataService);
+    return service;
+}
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -210,7 +145,7 @@ exports.LocalStorageDataService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _DataService2 = __webpack_require__(25);
+var _DataService2 = __webpack_require__(6);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -319,7 +254,7 @@ var LocalStorageDataService = exports.LocalStorageDataService = function (_DataS
 
 /***/ }),
 
-/***/ 27:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -332,7 +267,7 @@ exports.Service = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _lodash = __webpack_require__(39);
+var _lodash = __webpack_require__(29);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -421,61 +356,7 @@ var Service = exports.Service = function () {
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Widget = __webpack_require__(20);
-
-Object.defineProperty(exports, 'Widget', {
-    enumerable: true,
-    get: function get() {
-        return _Widget.Widget;
-    }
-});
-
-var _DataService = __webpack_require__(25);
-
-Object.defineProperty(exports, 'DataService', {
-    enumerable: true,
-    get: function get() {
-        return _DataService.DataService;
-    }
-});
-
-var _LocalStorageDataService = __webpack_require__(26);
-
-Object.defineProperty(exports, 'LocalStorageDataService', {
-    enumerable: true,
-    get: function get() {
-        return _LocalStorageDataService.LocalStorageDataService;
-    }
-});
-
-var _Service = __webpack_require__(27);
-
-Object.defineProperty(exports, 'Service', {
-    enumerable: true,
-    get: function get() {
-        return _Service.Service;
-    }
-});
-exports.default = initializeDashboardDefaults;
-function initializeDashboardDefaults() {
-    var dataService = new Dashboard.core.LocalStorageDataService('storage');
-    var service = new Dashboard.core.Service(dataService);
-    return service;
-}
-
-/***/ }),
-
-/***/ 39:
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -17564,11 +17445,40 @@ function initializeDashboardDefaults() {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(30)(module)))
 
 /***/ }),
 
-/***/ 4:
+/***/ 30:
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
+/***/ 5:
 /***/ (function(module, exports) {
 
 var g;
@@ -17596,32 +17506,122 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 40:
-/***/ (function(module, exports) {
+/***/ 6:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
+"use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DataService = exports.DataService = function () {
+    function DataService() {
+        _classCallCheck(this, DataService);
+    }
+
+    _createClass(DataService, [{
+        key: 'createWidgetConfiguration',
+        value: function createWidgetConfiguration(widgetType) {
+            throw 'createWigetConfiguration not implemented';
+        }
+    }, {
+        key: 'findWidgetConfigurations',
+        value: function findWidgetConfigurations() {
+            throw 'findWidgetConfigurations not implemented';
+        }
+    }, {
+        key: 'removeWidgetConfiguration',
+        value: function removeWidgetConfiguration(widgetId) {
+            throw 'removeWidgetConfiguration not implemented';
+        }
+    }, {
+        key: 'sortWidgetConfiguration',
+        value: function sortWidgetConfiguration(from, to) {
+            throw 'sortWidgetConfiguration not implemented';
+        }
+    }]);
+
+    return DataService;
+}();
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Widget = exports.Widget = function () {
+    function Widget(type) {
+        _classCallCheck(this, Widget);
+
+        this.type = type;
+        this.sizeConfiguration = "col-xs-12 col-md-4";
+        this.configurable = false;
+        this.refreshable = false;
+    }
+
+    _createClass(Widget, [{
+        key: 'initialize',
+        value: function initialize(widgetElement) {
+            throw 'initialize - I have to be implemented by the widget!';
+        }
+    }, {
+        key: 'configure',
+        value: function configure(widgetElement) {
+            window.alert('i have to be configured!');
+        }
+    }, {
+        key: 'initializeContent',
+        value: function initializeContent(widgetElement) {
+            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
+                this.configure(widgetElement);
+            } else {
+                this.initialize(widgetElement);
+            }
+        }
+    }, {
+        key: 'refreshContent',
+        value: function refreshContent(widgetElement) {
+            if (this.refreshable && this.refresh === undefined) {
+                throw 'refresh - i have to have a refresh method!';
+            } else {
+                this.refresh(widgetElement);
+            }
+        }
+    }, {
+        key: 'showProgressSpinner',
+        value: function showProgressSpinner(widgetElement) {
+            widgetElement.find('.panel-body').fadeOut(300, function () {
+                widgetElement.find('.panel-loading').fadeIn(500);
+            });
+        }
+    }, {
+        key: 'hideProgressSpinner',
+        value: function hideProgressSpinner(widgetElement) {
+            widgetElement.find('.panel-loading').fadeOut(300, function () {
+                widgetElement.find('.panel-body').fadeIn(500);
+            });
+        }
+    }]);
+
+    return Widget;
+}();
 
 /***/ })
 

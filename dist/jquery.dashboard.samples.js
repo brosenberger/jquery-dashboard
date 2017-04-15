@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -271,11 +271,40 @@ module.exports = exports['default'];
 
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
-module.exports = __webpack_require__(5)['default'];
+module.exports = __webpack_require__(12)['default'];
 
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.configurationLayout = exports.layout = undefined;
+
+var _handlebars = __webpack_require__(2);
+
+var _handlebars2 = _interopRequireDefault(_handlebars);
+
+var _handlebarsLayouts = __webpack_require__(8);
+
+var _handlebarsLayouts2 = _interopRequireDefault(_handlebarsLayouts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var layout = exports.layout = __webpack_require__(10);
+var configurationLayout = exports.configurationLayout = __webpack_require__(9);
+
+_handlebarsLayouts2.default.register(_handlebars2.default);
+_handlebars2.default.registerPartial('widget-layout', layout);
+_handlebars2.default.registerPartial('widget-configuration-layout', configurationLayout);
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -293,11 +322,11 @@ var _exception = __webpack_require__(1);
 
 var _exception2 = _interopRequireDefault(_exception);
 
-var _helpers = __webpack_require__(8);
+var _helpers = __webpack_require__(15);
 
-var _decorators = __webpack_require__(6);
+var _decorators = __webpack_require__(13);
 
-var _logger = __webpack_require__(16);
+var _logger = __webpack_require__(23);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -386,7 +415,7 @@ exports.logger = _logger2['default'];
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 var g;
@@ -413,7 +442,367 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
+/* 6 */,
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Widget = exports.Widget = function () {
+    function Widget(type) {
+        _classCallCheck(this, Widget);
+
+        this.type = type;
+        this.sizeConfiguration = "col-xs-12 col-md-4";
+        this.configurable = false;
+        this.refreshable = false;
+    }
+
+    _createClass(Widget, [{
+        key: 'initialize',
+        value: function initialize(widgetElement) {
+            throw 'initialize - I have to be implemented by the widget!';
+        }
+    }, {
+        key: 'configure',
+        value: function configure(widgetElement) {
+            window.alert('i have to be configured!');
+        }
+    }, {
+        key: 'initializeContent',
+        value: function initializeContent(widgetElement) {
+            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
+                this.configure(widgetElement);
+            } else {
+                this.initialize(widgetElement);
+            }
+        }
+    }, {
+        key: 'refreshContent',
+        value: function refreshContent(widgetElement) {
+            if (this.refreshable && this.refresh === undefined) {
+                throw 'refresh - i have to have a refresh method!';
+            } else {
+                this.refresh(widgetElement);
+            }
+        }
+    }, {
+        key: 'showProgressSpinner',
+        value: function showProgressSpinner(widgetElement) {
+            widgetElement.find('.panel-body').fadeOut(300, function () {
+                widgetElement.find('.panel-loading').fadeIn(500);
+            });
+        }
+    }, {
+        key: 'hideProgressSpinner',
+        value: function hideProgressSpinner(widgetElement) {
+            widgetElement.find('.panel-loading').fadeOut(300, function () {
+                widgetElement.find('.panel-body').fadeIn(500);
+            });
+        }
+    }]);
+
+    return Widget;
+}();
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var hasOwn = Object.prototype.hasOwnProperty;
+
+function noop() {
+	return '';
+}
+
+function getStack(context) {
+	return context.$$layoutStack || (
+		context.$$layoutStack = []
+	);
+}
+
+function applyStack(context) {
+	var stack = getStack(context);
+
+	while (stack.length) {
+		stack.shift()(context);
+	}
+}
+
+function getActions(context) {
+	return context.$$layoutActions || (
+		context.$$layoutActions = {}
+	);
+}
+
+function getActionsByName(context, name) {
+	var actions = getActions(context);
+
+	return actions[name] || (
+		actions[name] = []
+	);
+}
+
+function applyAction(val, action) {
+	var context = this;
+
+	function fn() {
+		return action.fn(context, action.options);
+	}
+
+	switch (action.mode) {
+		case 'append': {
+			return val + fn();
+		}
+
+		case 'prepend': {
+			return fn() + val;
+		}
+
+		case 'replace': {
+			return fn();
+		}
+
+		default: {
+			return val;
+		}
+	}
+}
+
+function mixin(target) {
+	var arg, key,
+		len = arguments.length,
+		i = 1;
+
+	for (; i < len; i++) {
+		arg = arguments[i];
+
+		if (!arg) {
+			continue;
+		}
+
+		for (key in arg) {
+			// istanbul ignore else
+			if (hasOwn.call(arg, key)) {
+				target[key] = arg[key];
+			}
+		}
+	}
+
+	return target;
+}
+
+/**
+ * Generates an object of layout helpers.
+ *
+ * @type {Function}
+ * @param {Object} handlebars Handlebars instance.
+ * @return {Object} Object of helpers.
+ */
+function layouts(handlebars) {
+	var helpers = {
+		/**
+		 * @method extend
+		 * @param {String} name
+		 * @param {?Object} customContext
+		 * @param {Object} options
+		 * @param {Function(Object)} options.fn
+		 * @param {Object} options.hash
+		 * @return {String} Rendered partial.
+		 */
+		extend: function (name, customContext, options) {
+			// Make `customContext` optional
+			if (arguments.length < 3) {
+				options = customContext;
+				customContext = null;
+			}
+
+			options = options || {};
+
+			var fn = options.fn || noop,
+				context = mixin({}, this, customContext, options.hash),
+				data = handlebars.createFrame(options.data),
+				template = handlebars.partials[name];
+
+			// Partial template required
+			if (template == null) {
+				throw new Error('Missing partial: \'' + name + '\'');
+			}
+
+			// Compile partial, if needed
+			if (typeof template !== 'function') {
+				template = handlebars.compile(template);
+			}
+
+			// Add overrides to stack
+			getStack(context).push(fn);
+
+			// Render partial
+			return template(context, { data: data });
+		},
+
+		/**
+		 * @method embed
+		 * @param {String} name
+		 * @param {?Object} customContext
+		 * @param {Object} options
+		 * @param {Function(Object)} options.fn
+		 * @param {Object} options.hash
+		 * @return {String} Rendered partial.
+		 */
+		embed: function () {
+			var context = mixin({}, this || {});
+
+			// Reset context
+			context.$$layoutStack = null;
+			context.$$layoutActions = null;
+
+			// Extend
+			return helpers.extend.apply(context, arguments);
+		},
+
+		/**
+		 * @method block
+		 * @param {String} name
+		 * @param {Object} options
+		 * @param {Function(Object)} options.fn
+		 * @return {String} Modified block content.
+		 */
+		block: function (name, options) {
+			options = options || {};
+
+			var fn = options.fn || noop,
+				data = handlebars.createFrame(options.data),
+				context = this || {};
+
+			applyStack(context);
+
+			return getActionsByName(context, name).reduce(
+				applyAction.bind(context),
+				fn(context, { data: data })
+			);
+		},
+
+		/**
+		 * @method content
+		 * @param {String} name
+		 * @param {Object} options
+		 * @param {Function(Object)} options.fn
+		 * @param {Object} options.hash
+		 * @param {String} options.hash.mode
+		 * @return {String} Always empty.
+		 */
+		content: function (name, options) {
+			options = options || {};
+
+			var fn = options.fn,
+				data = handlebars.createFrame(options.data),
+				hash = options.hash || {},
+				mode = hash.mode || 'replace',
+				context = this || {};
+
+			applyStack(context);
+
+			// Getter
+			if (!fn) {
+				return name in getActions(context);
+			}
+
+			// Setter
+			getActionsByName(context, name).push({
+				options: { data: data },
+				mode: mode.toLowerCase(),
+				fn: fn
+			});
+		}
+	};
+
+	return helpers;
+}
+
+/**
+ * Registers layout helpers on a Handlebars instance.
+ *
+ * @method register
+ * @param {Object} handlebars Handlebars instance.
+ * @return {Object} Object of helpers.
+ * @static
+ */
+layouts.register = function (handlebars) {
+	var helpers = layouts(handlebars);
+
+	handlebars.registerHelper(helpers);
+
+	return helpers;
+};
+
+module.exports = layouts;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Handlebars = __webpack_require__(2);
+module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    return "";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return "<form>\r\n    "
+    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"settings",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n    <input type=\"hidden\" id=\"widgetId\" name=\"widgetId\" value=\""
+    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\"/>\r\n</form>";
+},"useData":true});
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Handlebars = __webpack_require__(2);
+module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    return "";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "                <i class=\"fa fa-cog fa-lg pull-right\"></i>\r\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    return "                <i class=\"fa fa-refresh fa-lg pull-right\"></i>\r\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div id=\"widget-"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"widget "
+    + alias4(((helper = (helper = helpers.sizeConfiguration || (depth0 != null ? depth0.sizeConfiguration : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"sizeConfiguration","hash":{},"data":data}) : helper)))
+    + " widget-"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" data-widget-id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" style=\"display:none\">\r\n    <div class=\"panel panel-default\">\r\n        <div class=\"panel-heading\">\r\n            "
+    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"header",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n            <i class=\"fa fa-trash fa-lg pull-right\"></i>\r\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.configurable : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.refreshable : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        </div>\r\n        <div class=\"panel-loading\" style=\"display:none;\"><i class=\"fa fa-spinner fa-pulse fa-3x fa-fw\"></i></div>\r\n        <div class=\"panel-body\">\r\n            "
+    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"content",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n        </div>\r\n    </div>\r\n</div>";
+},"useData":true});
+
+/***/ }),
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -428,14 +817,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-var _handlebarsBase = __webpack_require__(3);
+var _handlebarsBase = __webpack_require__(4);
 
 var base = _interopRequireWildcard(_handlebarsBase);
 
 // Each of these augment the Handlebars object. No need to setup here.
 // (This is done to easily share code between commonjs and browse envs)
 
-var _handlebarsSafeString = __webpack_require__(19);
+var _handlebarsSafeString = __webpack_require__(26);
 
 var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
 
@@ -447,11 +836,11 @@ var _handlebarsUtils = __webpack_require__(0);
 
 var Utils = _interopRequireWildcard(_handlebarsUtils);
 
-var _handlebarsRuntime = __webpack_require__(18);
+var _handlebarsRuntime = __webpack_require__(25);
 
 var runtime = _interopRequireWildcard(_handlebarsRuntime);
 
-var _handlebarsNoConflict = __webpack_require__(17);
+var _handlebarsNoConflict = __webpack_require__(24);
 
 var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
@@ -486,7 +875,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 6 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -498,7 +887,7 @@ exports.registerDefaultDecorators = registerDefaultDecorators;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _decoratorsInline = __webpack_require__(7);
+var _decoratorsInline = __webpack_require__(14);
 
 var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
 
@@ -509,7 +898,7 @@ function registerDefaultDecorators(instance) {
 
 
 /***/ }),
-/* 7 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -545,7 +934,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 8 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -557,31 +946,31 @@ exports.registerDefaultHelpers = registerDefaultHelpers;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _helpersBlockHelperMissing = __webpack_require__(9);
+var _helpersBlockHelperMissing = __webpack_require__(16);
 
 var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
 
-var _helpersEach = __webpack_require__(10);
+var _helpersEach = __webpack_require__(17);
 
 var _helpersEach2 = _interopRequireDefault(_helpersEach);
 
-var _helpersHelperMissing = __webpack_require__(11);
+var _helpersHelperMissing = __webpack_require__(18);
 
 var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
 
-var _helpersIf = __webpack_require__(12);
+var _helpersIf = __webpack_require__(19);
 
 var _helpersIf2 = _interopRequireDefault(_helpersIf);
 
-var _helpersLog = __webpack_require__(13);
+var _helpersLog = __webpack_require__(20);
 
 var _helpersLog2 = _interopRequireDefault(_helpersLog);
 
-var _helpersLookup = __webpack_require__(14);
+var _helpersLookup = __webpack_require__(21);
 
 var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
 
-var _helpersWith = __webpack_require__(15);
+var _helpersWith = __webpack_require__(22);
 
 var _helpersWith2 = _interopRequireDefault(_helpersWith);
 
@@ -598,7 +987,7 @@ function registerDefaultHelpers(instance) {
 
 
 /***/ }),
-/* 9 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -644,7 +1033,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 10 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -745,7 +1134,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 11 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -777,7 +1166,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 12 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -813,7 +1202,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 13 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -846,7 +1235,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 14 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -865,7 +1254,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 15 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -905,7 +1294,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 16 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -959,7 +1348,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 17 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -984,10 +1373,10 @@ exports['default'] = function (Handlebars) {
 module.exports = exports['default'];
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL25vLWNvbmZsaWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O3FCQUNlLFVBQVMsVUFBVSxFQUFFOztBQUVsQyxNQUFJLElBQUksR0FBRyxPQUFPLE1BQU0sS0FBSyxXQUFXLEdBQUcsTUFBTSxHQUFHLE1BQU07TUFDdEQsV0FBVyxHQUFHLElBQUksQ0FBQyxVQUFVLENBQUM7O0FBRWxDLFlBQVUsQ0FBQyxVQUFVLEdBQUcsWUFBVztBQUNqQyxRQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssVUFBVSxFQUFFO0FBQ2xDLFVBQUksQ0FBQyxVQUFVLEdBQUcsV0FBVyxDQUFDO0tBQy9CO0FBQ0QsV0FBTyxVQUFVLENBQUM7R0FDbkIsQ0FBQztDQUNIIiwiZmlsZSI6Im5vLWNvbmZsaWN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyogZ2xvYmFsIHdpbmRvdyAqL1xuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oSGFuZGxlYmFycykge1xuICAvKiBpc3RhbmJ1bCBpZ25vcmUgbmV4dCAqL1xuICBsZXQgcm9vdCA9IHR5cGVvZiBnbG9iYWwgIT09ICd1bmRlZmluZWQnID8gZ2xvYmFsIDogd2luZG93LFxuICAgICAgJEhhbmRsZWJhcnMgPSByb290LkhhbmRsZWJhcnM7XG4gIC8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG4gIEhhbmRsZWJhcnMubm9Db25mbGljdCA9IGZ1bmN0aW9uKCkge1xuICAgIGlmIChyb290LkhhbmRsZWJhcnMgPT09IEhhbmRsZWJhcnMpIHtcbiAgICAgIHJvb3QuSGFuZGxlYmFycyA9ICRIYW5kbGViYXJzO1xuICAgIH1cbiAgICByZXR1cm4gSGFuZGxlYmFycztcbiAgfTtcbn1cbiJdfQ==
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 18 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1016,7 +1405,7 @@ var _exception = __webpack_require__(1);
 
 var _exception2 = _interopRequireDefault(_exception);
 
-var _base = __webpack_require__(3);
+var _base = __webpack_require__(4);
 
 function checkRevision(compilerInfo) {
   var compilerRevision = compilerInfo && compilerInfo[0] || 1,
@@ -1291,7 +1680,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 
 
 /***/ }),
-/* 19 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1313,7 +1702,14 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 20 */
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1323,389 +1719,23 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _ChuckWidget = __webpack_require__(35);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Widget = exports.Widget = function () {
-    function Widget(type) {
-        _classCallCheck(this, Widget);
-
-        this.type = type;
-        this.sizeConfiguration = "col-xs-12 col-md-4";
-        this.configurable = false;
-        this.refreshable = false;
+Object.defineProperty(exports, 'ChuckNorrisWidget', {
+    enumerable: true,
+    get: function get() {
+        return _ChuckWidget.ChuckNorrisWidget;
     }
-
-    _createClass(Widget, [{
-        key: 'initialize',
-        value: function initialize(widgetElement) {
-            throw 'initialize - I have to be implemented by the widget!';
-        }
-    }, {
-        key: 'configure',
-        value: function configure(widgetElement) {
-            window.alert('i have to be configured!');
-        }
-    }, {
-        key: 'initializeContent',
-        value: function initializeContent(widgetElement) {
-            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
-                this.configure(widgetElement);
-            } else {
-                this.initialize(widgetElement);
-            }
-        }
-    }, {
-        key: 'refreshContent',
-        value: function refreshContent(widgetElement) {
-            if (this.refreshable && this.refresh === undefined) {
-                throw 'refresh - i have to have a refresh method!';
-            } else {
-                this.refresh(widgetElement);
-            }
-        }
-    }, {
-        key: 'showProgressSpinner',
-        value: function showProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-body').fadeOut(300, function () {
-                widgetElement.find('.panel-loading').fadeIn(500);
-            });
-        }
-    }, {
-        key: 'hideProgressSpinner',
-        value: function hideProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-loading').fadeOut(300, function () {
-                widgetElement.find('.panel-body').fadeIn(500);
-            });
-        }
-    }]);
-
-    return Widget;
-}();
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
 });
-exports.configurationLayout = exports.layout = undefined;
+exports.default = initializeDefault;
+__webpack_require__(3);
 
-var _handlebars = __webpack_require__(2);
-
-var _handlebars2 = _interopRequireDefault(_handlebars);
-
-var _handlebarsLayouts = __webpack_require__(22);
-
-var _handlebarsLayouts2 = _interopRequireDefault(_handlebarsLayouts);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var layout = exports.layout = __webpack_require__(24);
-var configurationLayout = exports.configurationLayout = __webpack_require__(23);
-
-_handlebarsLayouts2.default.register(_handlebars2.default);
-_handlebars2.default.registerPartial('widget-layout', layout);
-_handlebars2.default.registerPartial('widget-configuration-layout', configurationLayout);
+function initializeDefault(service) {
+    service.registerWidget(new Dashboard.samples.ChuckNorrisWidget());
+}
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var hasOwn = Object.prototype.hasOwnProperty;
-
-function noop() {
-	return '';
-}
-
-function getStack(context) {
-	return context.$$layoutStack || (
-		context.$$layoutStack = []
-	);
-}
-
-function applyStack(context) {
-	var stack = getStack(context);
-
-	while (stack.length) {
-		stack.shift()(context);
-	}
-}
-
-function getActions(context) {
-	return context.$$layoutActions || (
-		context.$$layoutActions = {}
-	);
-}
-
-function getActionsByName(context, name) {
-	var actions = getActions(context);
-
-	return actions[name] || (
-		actions[name] = []
-	);
-}
-
-function applyAction(val, action) {
-	var context = this;
-
-	function fn() {
-		return action.fn(context, action.options);
-	}
-
-	switch (action.mode) {
-		case 'append': {
-			return val + fn();
-		}
-
-		case 'prepend': {
-			return fn() + val;
-		}
-
-		case 'replace': {
-			return fn();
-		}
-
-		default: {
-			return val;
-		}
-	}
-}
-
-function mixin(target) {
-	var arg, key,
-		len = arguments.length,
-		i = 1;
-
-	for (; i < len; i++) {
-		arg = arguments[i];
-
-		if (!arg) {
-			continue;
-		}
-
-		for (key in arg) {
-			// istanbul ignore else
-			if (hasOwn.call(arg, key)) {
-				target[key] = arg[key];
-			}
-		}
-	}
-
-	return target;
-}
-
-/**
- * Generates an object of layout helpers.
- *
- * @type {Function}
- * @param {Object} handlebars Handlebars instance.
- * @return {Object} Object of helpers.
- */
-function layouts(handlebars) {
-	var helpers = {
-		/**
-		 * @method extend
-		 * @param {String} name
-		 * @param {?Object} customContext
-		 * @param {Object} options
-		 * @param {Function(Object)} options.fn
-		 * @param {Object} options.hash
-		 * @return {String} Rendered partial.
-		 */
-		extend: function (name, customContext, options) {
-			// Make `customContext` optional
-			if (arguments.length < 3) {
-				options = customContext;
-				customContext = null;
-			}
-
-			options = options || {};
-
-			var fn = options.fn || noop,
-				context = mixin({}, this, customContext, options.hash),
-				data = handlebars.createFrame(options.data),
-				template = handlebars.partials[name];
-
-			// Partial template required
-			if (template == null) {
-				throw new Error('Missing partial: \'' + name + '\'');
-			}
-
-			// Compile partial, if needed
-			if (typeof template !== 'function') {
-				template = handlebars.compile(template);
-			}
-
-			// Add overrides to stack
-			getStack(context).push(fn);
-
-			// Render partial
-			return template(context, { data: data });
-		},
-
-		/**
-		 * @method embed
-		 * @param {String} name
-		 * @param {?Object} customContext
-		 * @param {Object} options
-		 * @param {Function(Object)} options.fn
-		 * @param {Object} options.hash
-		 * @return {String} Rendered partial.
-		 */
-		embed: function () {
-			var context = mixin({}, this || {});
-
-			// Reset context
-			context.$$layoutStack = null;
-			context.$$layoutActions = null;
-
-			// Extend
-			return helpers.extend.apply(context, arguments);
-		},
-
-		/**
-		 * @method block
-		 * @param {String} name
-		 * @param {Object} options
-		 * @param {Function(Object)} options.fn
-		 * @return {String} Modified block content.
-		 */
-		block: function (name, options) {
-			options = options || {};
-
-			var fn = options.fn || noop,
-				data = handlebars.createFrame(options.data),
-				context = this || {};
-
-			applyStack(context);
-
-			return getActionsByName(context, name).reduce(
-				applyAction.bind(context),
-				fn(context, { data: data })
-			);
-		},
-
-		/**
-		 * @method content
-		 * @param {String} name
-		 * @param {Object} options
-		 * @param {Function(Object)} options.fn
-		 * @param {Object} options.hash
-		 * @param {String} options.hash.mode
-		 * @return {String} Always empty.
-		 */
-		content: function (name, options) {
-			options = options || {};
-
-			var fn = options.fn,
-				data = handlebars.createFrame(options.data),
-				hash = options.hash || {},
-				mode = hash.mode || 'replace',
-				context = this || {};
-
-			applyStack(context);
-
-			// Getter
-			if (!fn) {
-				return name in getActions(context);
-			}
-
-			// Setter
-			getActionsByName(context, name).push({
-				options: { data: data },
-				mode: mode.toLowerCase(),
-				fn: fn
-			});
-		}
-	};
-
-	return helpers;
-}
-
-/**
- * Registers layout helpers on a Handlebars instance.
- *
- * @method register
- * @param {Object} handlebars Handlebars instance.
- * @return {Object} Object of helpers.
- * @static
- */
-layouts.register = function (handlebars) {
-	var helpers = layouts(handlebars);
-
-	handlebars.registerHelper(helpers);
-
-	return helpers;
-};
-
-module.exports = layouts;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Handlebars = __webpack_require__(2);
-module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
-    return "";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
-
-  return "<form>\r\n    "
-    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"settings",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n    <input type=\"hidden\" id=\"widgetId\" name=\"widgetId\" value=\""
-    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\"/>\r\n</form>";
-},"useData":true});
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Handlebars = __webpack_require__(2);
-module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
-    return "";
-},"3":function(container,depth0,helpers,partials,data) {
-    return "                <i class=\"fa fa-cog fa-lg pull-right\"></i>\r\n";
-},"5":function(container,depth0,helpers,partials,data) {
-    return "                <i class=\"fa fa-refresh fa-lg pull-right\"></i>\r\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "<div id=\"widget-"
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"widget "
-    + alias4(((helper = (helper = helpers.sizeConfiguration || (depth0 != null ? depth0.sizeConfiguration : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"sizeConfiguration","hash":{},"data":data}) : helper)))
-    + " widget-"
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" data-widget-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" style=\"display:none\">\r\n    <div class=\"panel panel-default\">\r\n        <div class=\"panel-heading\">\r\n            "
-    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"header",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n            <i class=\"fa fa-trash fa-lg pull-right\"></i>\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.configurable : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.refreshable : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n        <div class=\"panel-loading\" style=\"display:none;\"><i class=\"fa fa-spinner fa-pulse fa-3x fa-fw\"></i></div>\r\n        <div class=\"panel-body\">\r\n            "
-    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"content",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n        </div>\r\n    </div>\r\n</div>";
-},"useData":true});
-
-/***/ }),
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1718,7 +1748,7 @@ exports.ChuckNorrisWidget = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Widget2 = __webpack_require__(20);
+var _Widget2 = __webpack_require__(7);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1734,7 +1764,7 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
 
         var _this = _possibleConstructorReturn(this, (ChuckNorrisWidget.__proto__ || Object.getPrototypeOf(ChuckNorrisWidget)).call(this, 'chuckNorrisWidget'));
 
-        _this.widgetTemplate = __webpack_require__(38);
+        _this.widgetTemplate = __webpack_require__(40);
         _this.description = {
             title: 'A little story about Chuck',
             description: 'Tells you some random fact about Chuck Norris'
@@ -1765,39 +1795,11 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
 }(_Widget2.Widget);
 
 /***/ }),
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _ChuckWidget = __webpack_require__(30);
-
-Object.defineProperty(exports, 'ChuckNorrisWidget', {
-    enumerable: true,
-    get: function get() {
-        return _ChuckWidget.ChuckNorrisWidget;
-    }
-});
-exports.default = initializeDefault;
-__webpack_require__(21);
-
-function initializeDefault(service) {
-    service.registerWidget(new Dashboard.samples.ChuckNorrisWidget());
-}
-
-/***/ }),
 /* 36 */,
 /* 37 */,
-/* 38 */
+/* 38 */,
+/* 39 */,
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Handlebars = __webpack_require__(2);
