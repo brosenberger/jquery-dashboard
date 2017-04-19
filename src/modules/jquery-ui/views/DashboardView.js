@@ -58,8 +58,9 @@ require('./../functions/fClassList.js');
         _initConfigureAction: function (grid) {
             var that = this;
             grid.on('click', '.fa.fa-cog', function () {
-                var widgetData = that._widgets[$(this).parents('.widget').data('widgetId')];
-                bootbox.dialog({
+                var widgetElement = $(this).parents('.widget');
+                var widgetData = that._widgets[widgetElement.data('widgetId')];
+                var dialog = bootbox.dialog({
                     title: widgetData.configurationTitle,
                     message: widgetData.configurationTemplate({
                         id: widgetData.id,
@@ -71,11 +72,18 @@ require('./../functions/fClassList.js');
                         save: {
                             label: 'Speichern',
                             className: 'btn-primary',
-                            callback: function (result) {
-                                return widgetData.configurationSaveCallback(widgetData, result);
+                            callback: function (event) {
+                                return that.options.dashboardService.saveConfiguration(widgetData.id, widgetData.configurationValues(dialog)).then(
+                                    function(result) {
+                                        widgetData.updateConfiguration(widgetElement, result);
+                                    }
+                                );
                             }
                         }
                     }
+                });
+                dialog.on("shown.bs.modal", function() {
+                    widgetData.initializeConfigurationValues(dialog); // todo
                 });
             });
             return this;

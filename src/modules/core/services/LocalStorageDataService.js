@@ -47,6 +47,21 @@ export class LocalStorageDataService extends DataService{
 
         this._saveStoredWidgets(orderWidgetList);
     }
+    saveWidgetConfiguration(widgetId, configuration) {
+        let that = this;
+        return new Promise(function(resolve, reject) {
+
+            let widgets = that._findStoredWidgets();
+            widgets.forEach(function (w) {
+               if (w.id === widgetId) {
+                   w.configuration = configuration;
+               }
+            });
+            that._saveStoredWidgets(widgets);
+
+            resolve(configuration);
+        });
+    }
     _findStoredWidgets () {
         let widgets = localStorage.getItem(this.storageLocation);
         if (widgets === undefined || widgets === null) {
@@ -55,6 +70,10 @@ export class LocalStorageDataService extends DataService{
             widgets = JSON.parse(widgets);
         }
         return widgets;
+    }
+    _loadStoredWidget(widgetId) {
+        let widgets = this._findStoredWidgets();
+
     }
 
     _saveStoredWidgets (widgets) {

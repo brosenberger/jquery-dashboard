@@ -12,4 +12,7 @@ export class DataService {
     sortWidgetConfiguration(from, to) {
         throw 'sortWidgetConfiguration not implemented';
     }
+    saveWidgetConfiguration(widgetId, configuration) {
+        throw 'saveWidgetConfiguration not implemented';
+    }
 }

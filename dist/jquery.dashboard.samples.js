@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -271,40 +271,11 @@ module.exports = exports['default'];
 
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
-module.exports = __webpack_require__(12)['default'];
+module.exports = __webpack_require__(11)['default'];
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.configurationLayout = exports.layout = undefined;
-
-var _handlebars = __webpack_require__(2);
-
-var _handlebars2 = _interopRequireDefault(_handlebars);
-
-var _handlebarsLayouts = __webpack_require__(8);
-
-var _handlebarsLayouts2 = _interopRequireDefault(_handlebarsLayouts);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var layout = exports.layout = __webpack_require__(10);
-var configurationLayout = exports.configurationLayout = __webpack_require__(9);
-
-_handlebarsLayouts2.default.register(_handlebars2.default);
-_handlebars2.default.registerPartial('widget-layout', layout);
-_handlebars2.default.registerPartial('widget-configuration-layout', configurationLayout);
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -322,11 +293,11 @@ var _exception = __webpack_require__(1);
 
 var _exception2 = _interopRequireDefault(_exception);
 
-var _helpers = __webpack_require__(15);
+var _helpers = __webpack_require__(14);
 
-var _decorators = __webpack_require__(13);
+var _decorators = __webpack_require__(12);
 
-var _logger = __webpack_require__(23);
+var _logger = __webpack_require__(22);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -415,7 +386,7 @@ exports.logger = _logger2['default'];
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 var g;
@@ -442,6 +413,35 @@ module.exports = g;
 
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.configurationLayout = exports.layout = undefined;
+
+var _handlebars = __webpack_require__(2);
+
+var _handlebars2 = _interopRequireDefault(_handlebars);
+
+var _handlebarsLayouts = __webpack_require__(8);
+
+var _handlebarsLayouts2 = _interopRequireDefault(_handlebarsLayouts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var layout = exports.layout = __webpack_require__(10);
+var configurationLayout = exports.configurationLayout = __webpack_require__(9);
+
+_handlebarsLayouts2.default.register(_handlebars2.default);
+_handlebars2.default.registerPartial('widget-layout', layout);
+_handlebars2.default.registerPartial('widget-configuration-layout', configurationLayout);
+
+/***/ }),
 /* 6 */,
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -465,29 +465,55 @@ var Widget = exports.Widget = function () {
         this.sizeConfiguration = "col-xs-12 col-md-4";
         this.configurable = false;
         this.refreshable = false;
+        this.configurationTitle = "Configure me";
     }
 
     _createClass(Widget, [{
-        key: 'initialize',
+        key: "initialize",
         value: function initialize(widgetElement) {
             throw 'initialize - I have to be implemented by the widget!';
         }
     }, {
-        key: 'configure',
-        value: function configure(widgetElement) {
-            window.alert('i have to be configured!');
+        key: "configurationValues",
+        value: function configurationValues(widgetElement) {
+            var transformed = {};
+            widgetElement.find('form').serializeArray().forEach(function (element) {
+                transformed[element.name] = element.value;
+            });
+            return transformed;
         }
     }, {
-        key: 'initializeContent',
+        key: "initializeConfigurationValues",
+        value: function initializeConfigurationValues(configurationDialog) {
+            for (var key in this.configuration) {
+                configurationDialog.find('[name="' + key + '"]').val(this.configuration[key]).trigger('change');
+            }
+        }
+    }, {
+        key: "showConfigurationOverlay",
+        value: function showConfigurationOverlay(widgetElement) {
+            widgetElement.find('.panel-body').fadeOut(300, function () {
+                widgetElement.find('.panel-notconfigured').fadeIn(500);
+            });
+        }
+    }, {
+        key: "hideConfigurationOverlay",
+        value: function hideConfigurationOverlay(widgetElement) {
+            widgetElement.find('.panel-notconfigured').fadeOut(300, function () {
+                widgetElement.find('.panel-body').fadeIn(500);
+            });
+        }
+    }, {
+        key: "initializeContent",
         value: function initializeContent(widgetElement) {
-            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
-                this.configure(widgetElement);
+            if (this.configurable && this.configuration === undefined) {
+                this.showConfigurationOverlay(widgetElement);
             } else {
                 this.initialize(widgetElement);
             }
         }
     }, {
-        key: 'refreshContent',
+        key: "refreshContent",
         value: function refreshContent(widgetElement) {
             if (this.refreshable && this.refresh === undefined) {
                 throw 'refresh - i have to have a refresh method!';
@@ -496,18 +522,24 @@ var Widget = exports.Widget = function () {
             }
         }
     }, {
-        key: 'showProgressSpinner',
+        key: "showProgressSpinner",
         value: function showProgressSpinner(widgetElement) {
             widgetElement.find('.panel-body').fadeOut(300, function () {
                 widgetElement.find('.panel-loading').fadeIn(500);
             });
         }
     }, {
-        key: 'hideProgressSpinner',
+        key: "hideProgressSpinner",
         value: function hideProgressSpinner(widgetElement) {
             widgetElement.find('.panel-loading').fadeOut(300, function () {
                 widgetElement.find('.panel-body').fadeIn(500);
             });
+        }
+    }, {
+        key: "updateConfiguration",
+        value: function updateConfiguration(widgetElement, configuration) {
+            this.configuration = configuration;
+            this.initialize(widgetElement);
         }
     }]);
 
@@ -759,13 +791,11 @@ var Handlebars = __webpack_require__(2);
 module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
     return "";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+    var stack1;
 
-  return "<form>\r\n    "
-    + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"settings",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n    <input type=\"hidden\" id=\"widgetId\" name=\"widgetId\" value=\""
-    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\"/>\r\n</form>";
+  return "<form class=\"form-horizontal\">\r\n    "
+    + ((stack1 = (helpers.block || (depth0 && depth0.block) || helpers.helperMissing).call(depth0 != null ? depth0 : {},"settings",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n</form>";
 },"useData":true});
 
 /***/ }),
@@ -795,14 +825,13 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
     + "\r\n            <i class=\"fa fa-trash fa-lg pull-right\"></i>\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.configurable : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.refreshable : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n        <div class=\"panel-loading\" style=\"display:none;\"><i class=\"fa fa-spinner fa-pulse fa-3x fa-fw\"></i></div>\r\n        <div class=\"panel-body\">\r\n            "
+    + "        </div>\r\n        <div class=\"panel-additional panel-loading\" style=\"display:none;\"><i class=\"fa fa-spinner fa-pulse fa-3x fa-fw\"></i></div>\r\n        <div class=\"panel-additional panel-notconfigured\" style=\"display:none;\"><i class=\"fa fa-cog fa-pulse fa-3x fa-fw\"></i>Bitte konfigurieren</div>\r\n        <div class=\"panel-body\">\r\n            "
     + ((stack1 = (helpers.block || (depth0 && depth0.block) || alias2).call(alias1,"content",{"name":"block","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n        </div>\r\n    </div>\r\n</div>";
 },"useData":true});
 
 /***/ }),
-/* 11 */,
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -817,14 +846,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-var _handlebarsBase = __webpack_require__(4);
+var _handlebarsBase = __webpack_require__(3);
 
 var base = _interopRequireWildcard(_handlebarsBase);
 
 // Each of these augment the Handlebars object. No need to setup here.
 // (This is done to easily share code between commonjs and browse envs)
 
-var _handlebarsSafeString = __webpack_require__(26);
+var _handlebarsSafeString = __webpack_require__(25);
 
 var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
 
@@ -836,11 +865,11 @@ var _handlebarsUtils = __webpack_require__(0);
 
 var Utils = _interopRequireWildcard(_handlebarsUtils);
 
-var _handlebarsRuntime = __webpack_require__(25);
+var _handlebarsRuntime = __webpack_require__(24);
 
 var runtime = _interopRequireWildcard(_handlebarsRuntime);
 
-var _handlebarsNoConflict = __webpack_require__(24);
+var _handlebarsNoConflict = __webpack_require__(23);
 
 var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
@@ -875,7 +904,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -887,7 +916,7 @@ exports.registerDefaultDecorators = registerDefaultDecorators;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _decoratorsInline = __webpack_require__(14);
+var _decoratorsInline = __webpack_require__(13);
 
 var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
 
@@ -898,7 +927,7 @@ function registerDefaultDecorators(instance) {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -934,7 +963,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -946,31 +975,31 @@ exports.registerDefaultHelpers = registerDefaultHelpers;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _helpersBlockHelperMissing = __webpack_require__(16);
+var _helpersBlockHelperMissing = __webpack_require__(15);
 
 var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
 
-var _helpersEach = __webpack_require__(17);
+var _helpersEach = __webpack_require__(16);
 
 var _helpersEach2 = _interopRequireDefault(_helpersEach);
 
-var _helpersHelperMissing = __webpack_require__(18);
+var _helpersHelperMissing = __webpack_require__(17);
 
 var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
 
-var _helpersIf = __webpack_require__(19);
+var _helpersIf = __webpack_require__(18);
 
 var _helpersIf2 = _interopRequireDefault(_helpersIf);
 
-var _helpersLog = __webpack_require__(20);
+var _helpersLog = __webpack_require__(19);
 
 var _helpersLog2 = _interopRequireDefault(_helpersLog);
 
-var _helpersLookup = __webpack_require__(21);
+var _helpersLookup = __webpack_require__(20);
 
 var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
 
-var _helpersWith = __webpack_require__(22);
+var _helpersWith = __webpack_require__(21);
 
 var _helpersWith2 = _interopRequireDefault(_helpersWith);
 
@@ -987,7 +1016,7 @@ function registerDefaultHelpers(instance) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1033,7 +1062,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1134,7 +1163,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1166,7 +1195,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1202,7 +1231,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1235,7 +1264,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1254,7 +1283,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1294,7 +1323,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1348,7 +1377,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1373,10 +1402,10 @@ exports['default'] = function (Handlebars) {
 module.exports = exports['default'];
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL25vLWNvbmZsaWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O3FCQUNlLFVBQVMsVUFBVSxFQUFFOztBQUVsQyxNQUFJLElBQUksR0FBRyxPQUFPLE1BQU0sS0FBSyxXQUFXLEdBQUcsTUFBTSxHQUFHLE1BQU07TUFDdEQsV0FBVyxHQUFHLElBQUksQ0FBQyxVQUFVLENBQUM7O0FBRWxDLFlBQVUsQ0FBQyxVQUFVLEdBQUcsWUFBVztBQUNqQyxRQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssVUFBVSxFQUFFO0FBQ2xDLFVBQUksQ0FBQyxVQUFVLEdBQUcsV0FBVyxDQUFDO0tBQy9CO0FBQ0QsV0FBTyxVQUFVLENBQUM7R0FDbkIsQ0FBQztDQUNIIiwiZmlsZSI6Im5vLWNvbmZsaWN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyogZ2xvYmFsIHdpbmRvdyAqL1xuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oSGFuZGxlYmFycykge1xuICAvKiBpc3RhbmJ1bCBpZ25vcmUgbmV4dCAqL1xuICBsZXQgcm9vdCA9IHR5cGVvZiBnbG9iYWwgIT09ICd1bmRlZmluZWQnID8gZ2xvYmFsIDogd2luZG93LFxuICAgICAgJEhhbmRsZWJhcnMgPSByb290LkhhbmRsZWJhcnM7XG4gIC8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG4gIEhhbmRsZWJhcnMubm9Db25mbGljdCA9IGZ1bmN0aW9uKCkge1xuICAgIGlmIChyb290LkhhbmRsZWJhcnMgPT09IEhhbmRsZWJhcnMpIHtcbiAgICAgIHJvb3QuSGFuZGxlYmFycyA9ICRIYW5kbGViYXJzO1xuICAgIH1cbiAgICByZXR1cm4gSGFuZGxlYmFycztcbiAgfTtcbn1cbiJdfQ==
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1405,7 +1434,7 @@ var _exception = __webpack_require__(1);
 
 var _exception2 = _interopRequireDefault(_exception);
 
-var _base = __webpack_require__(4);
+var _base = __webpack_require__(3);
 
 function checkRevision(compilerInfo) {
   var compilerRevision = compilerInfo && compilerInfo[0] || 1,
@@ -1680,7 +1709,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1702,40 +1731,14 @@ module.exports = exports['default'];
 
 
 /***/ }),
+/* 26 */,
 /* 27 */,
 /* 28 */,
 /* 29 */,
 /* 30 */,
 /* 31 */,
 /* 32 */,
-/* 33 */,
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _ChuckWidget = __webpack_require__(35);
-
-Object.defineProperty(exports, 'ChuckNorrisWidget', {
-    enumerable: true,
-    get: function get() {
-        return _ChuckWidget.ChuckNorrisWidget;
-    }
-});
-exports.default = initializeDefault;
-__webpack_require__(3);
-
-function initializeDefault(service) {
-    service.registerWidget(new Dashboard.samples.ChuckNorrisWidget());
-}
-
-/***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1765,12 +1768,15 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
         var _this = _possibleConstructorReturn(this, (ChuckNorrisWidget.__proto__ || Object.getPrototypeOf(ChuckNorrisWidget)).call(this, 'chuckNorrisWidget'));
 
         _this.widgetTemplate = __webpack_require__(40);
+        _this.configurationTemplate = __webpack_require__(41);
         _this.description = {
             title: 'A little story about Chuck',
             description: 'Tells you some random fact about Chuck Norris'
         };
         _this.sizeConfiguration = 'col-xs-12 col-md-4';
         _this.refreshable = true;
+        _this.configurable = true;
+        _this.configuration = {};
         return _this;
     }
 
@@ -1779,7 +1785,11 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
         value: function initialize(widgetElement) {
             this.showProgressSpinner(widgetElement);
             var that = this;
-            $.get('https://api.chucknorris.io/jokes/random').then(function (data) {
+            var options = {};
+            if (this.configuration["chuck_category"] !== undefined) {
+                options["category"] = this.configuration["chuck_category"];
+            }
+            $.get('https://api.chucknorris.io/jokes/random', options).then(function (data) {
                 widgetElement.find('.panel-body').html(data.value);
                 that.hideProgressSpinner(widgetElement);
             });
@@ -1795,8 +1805,35 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
 }(_Widget2.Widget);
 
 /***/ }),
+/* 34 */,
+/* 35 */,
 /* 36 */,
-/* 37 */,
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _ChuckWidget = __webpack_require__(33);
+
+Object.defineProperty(exports, 'ChuckNorrisWidget', {
+    enumerable: true,
+    get: function get() {
+        return _ChuckWidget.ChuckNorrisWidget;
+    }
+});
+exports.default = initializeDefault;
+__webpack_require__(5);
+
+function initializeDefault(service) {
+    service.registerWidget(new Dashboard.samples.ChuckNorrisWidget());
+}
+
+/***/ }),
 /* 38 */,
 /* 39 */,
 /* 40 */
@@ -1816,6 +1853,23 @@ module.exports = (Handlebars['default'] || Handlebars).template({"1":function(co
     var stack1;
 
   return ((stack1 = (helpers.extend || (depth0 && depth0.extend) || helpers.helperMissing).call(depth0 != null ? depth0 : {},"widget-layout",{"name":"extend","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Handlebars = __webpack_require__(2);
+module.exports = (Handlebars['default'] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = (helpers.content || (depth0 && depth0.content) || helpers.helperMissing).call(depth0 != null ? depth0 : {},"settings",{"name":"content","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"2":function(container,depth0,helpers,partials,data) {
+    return "        <div class=\"row\">\r\n            <div class=\"cols-xs-12\">\r\n                <div class=\"form-group\">\r\n                    <label class=\"col-xs-4 control-label\" for=\"chuck_category\">Category</label>\r\n                    <select name=\"chuck_category\" class=\"form-control col-xs-8\">\r\n                        <option value=\"\">All</option>\r\n                        <option value=\"science\">Science</option>\r\n                        <option value=\"dev\">Dev</option>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n        </div>\r\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = (helpers.extend || (depth0 && depth0.extend) || helpers.helperMissing).call(depth0 != null ? depth0 : {},"widget-configuration-layout",{"name":"extend","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
 /***/ })

@@ -73,12 +73,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 11:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -213,6 +213,23 @@ var LocalStorageDataService = exports.LocalStorageDataService = function (_DataS
             this._saveStoredWidgets(orderWidgetList);
         }
     }, {
+        key: 'saveWidgetConfiguration',
+        value: function saveWidgetConfiguration(widgetId, configuration) {
+            var that = this;
+            return new Promise(function (resolve, reject) {
+
+                var widgets = that._findStoredWidgets();
+                widgets.forEach(function (w) {
+                    if (w.id === widgetId) {
+                        w.configuration = configuration;
+                    }
+                });
+                that._saveStoredWidgets(widgets);
+
+                resolve(configuration);
+            });
+        }
+    }, {
         key: '_findStoredWidgets',
         value: function _findStoredWidgets() {
             var widgets = localStorage.getItem(this.storageLocation);
@@ -222,6 +239,11 @@ var LocalStorageDataService = exports.LocalStorageDataService = function (_DataS
                 widgets = JSON.parse(widgets);
             }
             return widgets;
+        }
+    }, {
+        key: '_loadStoredWidget',
+        value: function _loadStoredWidget(widgetId) {
+            var widgets = this._findStoredWidgets();
         }
     }, {
         key: '_saveStoredWidgets',
@@ -334,6 +356,11 @@ var Service = exports.Service = function () {
         key: 'sortWidgetData',
         value: function sortWidgetData(from, to) {
             this.dataService.sortWidgetConfiguration(from, to);
+        }
+    }, {
+        key: 'saveConfiguration',
+        value: function saveConfiguration(widgetId, configurationData) {
+            return this.dataService.saveWidgetConfiguration(widgetId, configurationData);
         }
     }, {
         key: '_enrichWidgetData',
@@ -17445,7 +17472,7 @@ var Service = exports.Service = function () {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(30)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(30)(module)))
 
 /***/ }),
 
@@ -17478,7 +17505,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 5:
+/***/ 4:
 /***/ (function(module, exports) {
 
 var g;
@@ -17545,6 +17572,11 @@ var DataService = exports.DataService = function () {
         value: function sortWidgetConfiguration(from, to) {
             throw 'sortWidgetConfiguration not implemented';
         }
+    }, {
+        key: 'saveWidgetConfiguration',
+        value: function saveWidgetConfiguration(widgetId, configuration) {
+            throw 'saveWidgetConfiguration not implemented';
+        }
     }]);
 
     return DataService;
@@ -17574,29 +17606,55 @@ var Widget = exports.Widget = function () {
         this.sizeConfiguration = "col-xs-12 col-md-4";
         this.configurable = false;
         this.refreshable = false;
+        this.configurationTitle = "Configure me";
     }
 
     _createClass(Widget, [{
-        key: 'initialize',
+        key: "initialize",
         value: function initialize(widgetElement) {
             throw 'initialize - I have to be implemented by the widget!';
         }
     }, {
-        key: 'configure',
-        value: function configure(widgetElement) {
-            window.alert('i have to be configured!');
+        key: "configurationValues",
+        value: function configurationValues(widgetElement) {
+            var transformed = {};
+            widgetElement.find('form').serializeArray().forEach(function (element) {
+                transformed[element.name] = element.value;
+            });
+            return transformed;
         }
     }, {
-        key: 'initializeContent',
+        key: "initializeConfigurationValues",
+        value: function initializeConfigurationValues(configurationDialog) {
+            for (var key in this.configuration) {
+                configurationDialog.find('[name="' + key + '"]').val(this.configuration[key]).trigger('change');
+            }
+        }
+    }, {
+        key: "showConfigurationOverlay",
+        value: function showConfigurationOverlay(widgetElement) {
+            widgetElement.find('.panel-body').fadeOut(300, function () {
+                widgetElement.find('.panel-notconfigured').fadeIn(500);
+            });
+        }
+    }, {
+        key: "hideConfigurationOverlay",
+        value: function hideConfigurationOverlay(widgetElement) {
+            widgetElement.find('.panel-notconfigured').fadeOut(300, function () {
+                widgetElement.find('.panel-body').fadeIn(500);
+            });
+        }
+    }, {
+        key: "initializeContent",
         value: function initializeContent(widgetElement) {
-            if (this.configurable && this.configurationCallback === undefined && this.configuration === undefined) {
-                this.configure(widgetElement);
+            if (this.configurable && this.configuration === undefined) {
+                this.showConfigurationOverlay(widgetElement);
             } else {
                 this.initialize(widgetElement);
             }
         }
     }, {
-        key: 'refreshContent',
+        key: "refreshContent",
         value: function refreshContent(widgetElement) {
             if (this.refreshable && this.refresh === undefined) {
                 throw 'refresh - i have to have a refresh method!';
@@ -17605,18 +17663,24 @@ var Widget = exports.Widget = function () {
             }
         }
     }, {
-        key: 'showProgressSpinner',
+        key: "showProgressSpinner",
         value: function showProgressSpinner(widgetElement) {
             widgetElement.find('.panel-body').fadeOut(300, function () {
                 widgetElement.find('.panel-loading').fadeIn(500);
             });
         }
     }, {
-        key: 'hideProgressSpinner',
+        key: "hideProgressSpinner",
         value: function hideProgressSpinner(widgetElement) {
             widgetElement.find('.panel-loading').fadeOut(300, function () {
                 widgetElement.find('.panel-body').fadeIn(500);
             });
+        }
+    }, {
+        key: "updateConfiguration",
+        value: function updateConfiguration(widgetElement, configuration) {
+            this.configuration = configuration;
+            this.initialize(widgetElement);
         }
     }]);
 

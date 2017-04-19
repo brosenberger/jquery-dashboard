@@ -47,6 +47,9 @@ export class Service {
     sortWidgetData (from, to) {
         this.dataService.sortWidgetConfiguration(from, to);
     }
+    saveConfiguration(widgetId, configurationData) {
+        return this.dataService.saveWidgetConfiguration(widgetId, configurationData);
+    }
     _enrichWidgetData (widgetData) {
         this._checkWidgetType(widgetData.type);
         // the widget prototype has to be copied to a new arrays as extend does mutate the original object!
