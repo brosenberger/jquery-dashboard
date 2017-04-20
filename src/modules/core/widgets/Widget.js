@@ -48,13 +48,29 @@ export class Widget {
         }
     }
     showProgressSpinner(widgetElement) {
-        widgetElement.find('.panel-body').fadeOut(300, function() {
-            widgetElement.find('.panel-loading').fadeIn(500);
+        return new Promise(function (resolve, reject) {
+            widgetElement.find('.panel-body').fadeOut(300, function() {
+                widgetElement.find('.panel-loading').fadeIn(500, function() {
+                    resolve();
+                });
+            });
+        });
+    }
+    progress(widgetElement, callback) {
+        let that = this;
+        this.showProgressSpinner(widgetElement).then(function() {
+            callback().then(function() {
+                that.hideProgressSpinner(widgetElement);
+            });
         });
     }
     hideProgressSpinner(widgetElement) {
-        widgetElement.find('.panel-loading').fadeOut(300, function() {
-            widgetElement.find('.panel-body').fadeIn(500);
+        return new Promise(function (resolve, reject) {
+            widgetElement.find('.panel-loading').fadeOut(300, function () {
+                widgetElement.find('.panel-body').fadeIn(500, function() {
+                    resolve();
+                });
+            });
         });
     }
     updateConfiguration(widgetElement, configuration) {

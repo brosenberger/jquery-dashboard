@@ -573,15 +573,33 @@ var Widget = exports.Widget = function () {
     }, {
         key: "showProgressSpinner",
         value: function showProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-body').fadeOut(300, function () {
-                widgetElement.find('.panel-loading').fadeIn(500);
+            return new Promise(function (resolve, reject) {
+                widgetElement.find('.panel-body').fadeOut(300, function () {
+                    widgetElement.find('.panel-loading').fadeIn(500, function () {
+                        resolve();
+                    });
+                });
+            });
+        }
+    }, {
+        key: "progress",
+        value: function progress(widgetElement, callback) {
+            var that = this;
+            this.showProgressSpinner(widgetElement).then(function () {
+                callback().then(function () {
+                    that.hideProgressSpinner(widgetElement);
+                });
             });
         }
     }, {
         key: "hideProgressSpinner",
         value: function hideProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-loading').fadeOut(300, function () {
-                widgetElement.find('.panel-body').fadeIn(500);
+            return new Promise(function (resolve, reject) {
+                widgetElement.find('.panel-loading').fadeOut(300, function () {
+                    widgetElement.find('.panel-body').fadeIn(500, function () {
+                        resolve();
+                    });
+                });
             });
         }
     }, {

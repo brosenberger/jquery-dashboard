@@ -16,15 +16,17 @@ export class ChuckNorrisWidget extends Widget {
     }
 
     initialize(widgetElement) {
-        this.showProgressSpinner(widgetElement);
-        let that = this;
-        let options = {};
-        if (this.configuration["chuck_category"] !== undefined) {
-            options["category"] = this.configuration["chuck_category"];
-        }
-        $.get('https://api.chucknorris.io/jokes/random', options).then(function (data) {
-            widgetElement.find('.panel-body').html(data.value);
-            that.hideProgressSpinner(widgetElement);
+        this.progress(widgetElement, function() {
+            return new Promise(function (resolve, reject) {
+                let options = {};
+                if (that.configuration["chuck_category"] !== undefined) {
+                    options["category"] = that.configuration["chuck_category"];
+                }
+                $.get('https://api.chucknorris.io/jokes/random', options).then(function (data) {
+                    widgetElement.find('.panel-body').html(data.value);
+                    resolve();
+                });
+            });
         });
     }
 

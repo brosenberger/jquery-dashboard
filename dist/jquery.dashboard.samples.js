@@ -524,15 +524,33 @@ var Widget = exports.Widget = function () {
     }, {
         key: "showProgressSpinner",
         value: function showProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-body').fadeOut(300, function () {
-                widgetElement.find('.panel-loading').fadeIn(500);
+            return new Promise(function (resolve, reject) {
+                widgetElement.find('.panel-body').fadeOut(300, function () {
+                    widgetElement.find('.panel-loading').fadeIn(500, function () {
+                        resolve();
+                    });
+                });
+            });
+        }
+    }, {
+        key: "progress",
+        value: function progress(widgetElement, callback) {
+            var that = this;
+            this.showProgressSpinner(widgetElement).then(function () {
+                callback().then(function () {
+                    that.hideProgressSpinner(widgetElement);
+                });
             });
         }
     }, {
         key: "hideProgressSpinner",
         value: function hideProgressSpinner(widgetElement) {
-            widgetElement.find('.panel-loading').fadeOut(300, function () {
-                widgetElement.find('.panel-body').fadeIn(500);
+            return new Promise(function (resolve, reject) {
+                widgetElement.find('.panel-loading').fadeOut(300, function () {
+                    widgetElement.find('.panel-body').fadeIn(500, function () {
+                        resolve();
+                    });
+                });
             });
         }
     }, {
@@ -1783,15 +1801,17 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
     _createClass(ChuckNorrisWidget, [{
         key: 'initialize',
         value: function initialize(widgetElement) {
-            this.showProgressSpinner(widgetElement);
-            var that = this;
-            var options = {};
-            if (this.configuration["chuck_category"] !== undefined) {
-                options["category"] = this.configuration["chuck_category"];
-            }
-            $.get('https://api.chucknorris.io/jokes/random', options).then(function (data) {
-                widgetElement.find('.panel-body').html(data.value);
-                that.hideProgressSpinner(widgetElement);
+            this.progress(widgetElement, function () {
+                return new Promise(function (resolve, reject) {
+                    var options = {};
+                    if (that.configuration["chuck_category"] !== undefined) {
+                        options["category"] = that.configuration["chuck_category"];
+                    }
+                    $.get('https://api.chucknorris.io/jokes/random', options).then(function (data) {
+                        widgetElement.find('.panel-body').html(data.value);
+                        resolve();
+                    });
+                });
             });
         }
     }, {
