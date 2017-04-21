@@ -16,6 +16,7 @@ export class ChuckNorrisWidget extends Widget {
     }
 
     initialize(widgetElement) {
+        let that = this;
         this.progress(widgetElement, function() {
             return new Promise(function (resolve, reject) {
                 let options = {};
