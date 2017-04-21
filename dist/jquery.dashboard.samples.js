@@ -1801,6 +1801,7 @@ var ChuckNorrisWidget = exports.ChuckNorrisWidget = function (_Widget) {
     _createClass(ChuckNorrisWidget, [{
         key: 'initialize',
         value: function initialize(widgetElement) {
+            var that = this;
             this.progress(widgetElement, function () {
                 return new Promise(function (resolve, reject) {
                     var options = {};
