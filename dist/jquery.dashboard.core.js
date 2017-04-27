@@ -312,12 +312,12 @@ var Service = exports.Service = function () {
     _createClass(Service, [{
         key: 'registerWidget',
         value: function registerWidget(widgetConfiguration) {
-            this._availableWidgets[widgetConfiguration.type] = _lodash2.default.clone(widgetConfiguration); //$.extend(true, {}, widgetConfiguration);
+            this._availableWidgets[widgetConfiguration.type] = _lodash2.default.clone(widgetConfiguration);
         }
     }, {
         key: 'findWidgets',
         value: function findWidgets() {
-            return $.extend(true, {}, this._availableWidgets);
+            return _lodash2.default.extend({}, this._availableWidgets);
         }
     }, {
         key: 'findWidgetData',
@@ -346,7 +346,7 @@ var Service = exports.Service = function () {
                 // call data service to generate base data
                 that.dataService.createWidgetConfiguration(widgetType).then(function (widgetData) {
                     if (widgetType === 'sampleWidget') {
-                        widgetData = $.extend(true, widgetData, {
+                        widgetData = _lodash2.default.extend(widgetData, {
                             configurationTitle: 'Config #' + widgetData.id,
                             configurable: Math.round(Math.random()),
                             refreshable: Math.round(Math.random())
@@ -371,7 +371,7 @@ var Service = exports.Service = function () {
         value: function _enrichWidgetData(widgetData) {
             this._checkWidgetType(widgetData.type);
             // the widget prototype has to be copied to a new arrays as extend does mutate the original object!
-            return $.extend(true, _lodash2.default.clone(this._availableWidgets[widgetData.type]), widgetData);
+            return _lodash2.default.extend(_lodash2.default.clone(this._availableWidgets[widgetData.type]), widgetData);
         }
     }, {
         key: '_checkWidgetType',

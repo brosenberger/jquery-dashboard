@@ -6,13 +6,13 @@ export class Service {
         this._availableWidgets = [];
     }
     registerWidget (widgetConfiguration) {
-        this._availableWidgets[widgetConfiguration.type] = _.clone(widgetConfiguration);//$.extend(true, {}, widgetConfiguration);
+        this._availableWidgets[widgetConfiguration.type] = _.clone(widgetConfiguration);
     }
     findWidgets () {
-        return $.extend(true, {}, this._availableWidgets);
+        return _.extend({}, this._availableWidgets);
     }
     findWidgetData () {
-        var that = this;
+        let that = this;
         return new Promise(function (resolve, reject) {
             that.dataService.findWidgetConfigurations().then(function (widgets) {
                 resolve(widgets.map(function (widget) {
@@ -27,13 +27,13 @@ export class Service {
     createWidgetData (widgetType) {
         this._checkWidgetType(widgetType);
 
-        var that = this;
+        let that = this;
         return new Promise(function (resolve, reject) {
             // call data service to generate base data
             that.dataService.createWidgetConfiguration(widgetType)
                 .then(function (widgetData) {
                     if (widgetType === 'sampleWidget') {
-                        widgetData = $.extend(true, widgetData, {
+                        widgetData = _.extend(widgetData, {
                             configurationTitle: 'Config #' + widgetData.id,
                             configurable: Math.round(Math.random()),
                             refreshable: Math.round(Math.random())
@@ -53,7 +53,7 @@ export class Service {
     _enrichWidgetData (widgetData) {
         this._checkWidgetType(widgetData.type);
         // the widget prototype has to be copied to a new arrays as extend does mutate the original object!
-        return $.extend(true, _.clone(this._availableWidgets[widgetData.type]), widgetData);
+        return _.extend(_.clone(this._availableWidgets[widgetData.type]), widgetData);
     }
     _checkWidgetType (widgetType) {
         if (!this._availableWidgets[widgetType]) {
