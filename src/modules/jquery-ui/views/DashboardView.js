@@ -89,6 +89,7 @@ require('./../functions/fClassList.js');
             return this;
         },
         _initDashboard: function (grid) {
+            let that = this;
             grid.sortable({
                 placeholder: {
                     element: function (currentItem) {
@@ -105,6 +106,7 @@ require('./../functions/fClassList.js');
                     var endIndex = ui.item.index();
 
                     grid.trigger('widget.sorted', {from: startIndex, to: endIndex});
+                    that.options.dashboardService.sortWidgetData(startIndex, endIndex);
                 },
                 start: function (e, ui) {
                     ui.item.data('startIndex', ui.item.index());

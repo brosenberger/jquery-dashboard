@@ -1919,17 +1919,21 @@ var LocalStorageDataService = exports.LocalStorageDataService = function (_DataS
         key: 'sortWidgetConfiguration',
         value: function sortWidgetConfiguration(from, to) {
             var widgetList = this._findStoredWidgets();
-
-            var orderWidgetList = [];
-            if (new_index >= this.length) {
-                var k = new_index - this.length;
+            while (from < 0) {
+                from += this.length;
+            }
+            while (to < 0) {
+                to += this.length;
+            }
+            if (to >= this.length) {
+                var k = to - this.length;
                 while (k-- + 1) {
-                    orderWidgetList.push(undefined);
+                    widgetList.push(undefined);
                 }
             }
-            this.splice(new_index, 0, orderWidgetList.splice(old_index, 1)[0]);
+            widgetList.splice(to, 0, widgetList.splice(from, 1)[0]);
 
-            this._saveStoredWidgets(orderWidgetList);
+            this._saveStoredWidgets(widgetList);
         }
     }, {
         key: 'saveWidgetConfiguration',
@@ -19361,6 +19365,7 @@ __webpack_require__(34);
             return this;
         },
         _initDashboard: function _initDashboard(grid) {
+            var that = this;
             grid.sortable({
                 placeholder: {
                     element: function element(currentItem) {
@@ -19376,6 +19381,7 @@ __webpack_require__(34);
                     var endIndex = ui.item.index();
 
                     grid.trigger('widget.sorted', { from: startIndex, to: endIndex });
+                    that.options.dashboardService.sortWidgetData(startIndex, endIndex);
                 },
                 start: function start(e, ui) {
                     ui.item.data('startIndex', ui.item.index());

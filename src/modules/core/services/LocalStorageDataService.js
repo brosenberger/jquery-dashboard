@@ -35,17 +35,21 @@ export class LocalStorageDataService extends DataService{
     }
     sortWidgetConfiguration(from, to) {
         let widgetList = this._findStoredWidgets();
-
-        let orderWidgetList =[];
-        if (new_index >= this.length) {
-            var k = new_index - this.length;
+        while (from < 0) {
+            from += this.length;
+        }
+        while (to < 0) {
+            to += this.length;
+        }
+        if (to >= this.length) {
+            let k = to - this.length;
             while ((k--) + 1) {
-                orderWidgetList.push(undefined);
+                widgetList.push(undefined);
             }
         }
-        this.splice(new_index, 0, orderWidgetList.splice(old_index, 1)[0]);
+        widgetList.splice(to, 0, widgetList.splice(from, 1)[0]);
 
-        this._saveStoredWidgets(orderWidgetList);
+        this._saveStoredWidgets(widgetList);
     }
     saveWidgetConfiguration(widgetId, configuration) {
         let that = this;
